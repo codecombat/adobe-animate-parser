@@ -1,0 +1,16 @@
+{
+    "presets": [
+        "@babel/preset-env"
+    ],
+
+    "plugins": [
+        "@babel/plugin-proposal-export-default-from"
+    ],
+
+    "sourceMaps": "inline",
+    "retainLines": true,
+
+    "ignore": [
+        "./fixtures"
+    ]
+}
