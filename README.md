@@ -1,10 +1,13 @@
-
 Main Goal:
  - Import the shape raw data from an animate js.
+ - We seem to have most or all of the data. Now it's an organization and cleanup question.
+
 
 Subtasks:
- [ ] Monkey patch createjs apis (see them execute)
- [ ] How are shapes referenced in raw data
+ [x] Monkey patch createjs apis (see them execute)
+ [x] How are shapes referenced in raw data
+ [x] Animations are referenced and can be nested.
+ [x] We can expose `lib` from `an` mutation (composition).
 
 
  Preformatting steps for animate JS file:
@@ -12,7 +15,6 @@ Subtasks:
  1. Remove self executing function and export as default
  1. Replace all references to `createjs` with `cjs`
  1. Replace all `AdobeAn` references with `an`
-
 
 
 ## Entry point
@@ -28,3 +30,27 @@ To get the `lib.<filename>`, return it from the `an.compositions`. The id corres
  - Access lib from the `an` file.
  - Private animation names don't matter.
  - Start fleshing out a `parse` method that is wired to the tests.
+ - Hard to test Animate against Flash because Containers are replaced with Animations.
+
+
+
+The relationships of Movieclips, Tweens, Containers, Shapes.
+
+A Movieclip (animation) is comprised of:
+  Any number of movieclips, containers or shapes being tweened.
+  Has a bounding box and frame bounds.
+
+  From a coding perspective. We start with a root movieclip.
+  It contains tweens of shapes/movieclips, and instantiates them.
+  
+  Then you can recursively walk these shapes/movieclips.
+
+A container
+  - Grouping around movieclips, containers and shapes.
+
+A shape
+ - Base case - Path and fill and other shape vector properties.
+
+A tween:
+ - Andrew believes is only ever in a movieclip.
+ - Moves a shape, container or movieclip.

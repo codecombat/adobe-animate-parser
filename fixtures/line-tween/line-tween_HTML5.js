@@ -201,8 +201,4 @@ module.exports = function (cjs, an) {
       timeline.addChild(layer);
     }
   }
-  
- 
-  var result = new lib.linetween_HTML5();
-  
-  }
+}

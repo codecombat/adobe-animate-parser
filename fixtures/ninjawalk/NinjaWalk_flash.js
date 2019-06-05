@@ -1015,6 +1015,7 @@
       this.timeline.addTween(cjs.Tween.get(this.instance_2).to({regX:24.2,regY:24,y:88},3).to({regX:24.3,regY:24.2,x:114.4,y:94.1},2).to({regX:24.2,x:114,y:87.2},3).to({regX:24.3,x:114.1,y:90.1},1).wait(1));
   
       // Head
+      // bn ---------------- gn
       this.instance_3 = new lib.Head();
       this.instance_3.setTransform(76.6,51.7,0.744,0.744,5,0,0,35.4,39);
   

@@ -28,6 +28,10 @@ p.frameBounds = [rect];
 	this.initialize(mode,startPosition,loop,{});
 
 	// Layer_1
+	// Movieclip: "bn" property. = "gn" property
+	// Shape: "bn" property name (usually this.shape) = "gn" is the reference to the shape
+	// in the shapes raw data. By key.
+
 	this.instance = new lib.Tween1("synched",0);
 	this.instance.parent = this;
 	this.instance.setTransform(8.7,76.9);
@@ -79,6 +83,7 @@ p.frameBounds = [rect];
 	this.timeline.addTween(cjs.Tween.get(this).wait(7).call(this.frame_7).wait(1));
 
 	// Layer_1_obj_
+	// bn = gn
 	this.Layer_1 = new lib.Scene_1_Layer_1();
 	this.Layer_1.name = "Layer_1";
 	this.Layer_1.parent = this;

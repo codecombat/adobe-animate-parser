@@ -33,6 +33,7 @@ export default {
       "shapes": [],
       "containers": [
         {
+          // this.instance = new Tween1()
           "bn": "instance",
           "t": [
             8.7,
@@ -47,6 +48,7 @@ export default {
           {
             "n": "get",
             "a": [
+              // .get(this.instance)
               "instance"
             ]
           },

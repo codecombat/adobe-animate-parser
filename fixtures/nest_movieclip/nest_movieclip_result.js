@@ -35,7 +35,7 @@
       "shapes": [
         {
           "bn": "shape",
-          "gn": "1"
+          "gn": "1" // This is the numeric reference to the shapes array above.
         }
       ],
       "containers": [
