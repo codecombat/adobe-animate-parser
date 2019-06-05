@@ -13,5 +13,4 @@ const dataTree = new lib['linetween_HTML5']()
 
 let parsedTree = parseMovieClip(dataTree, {})
 
-console.log(targetCache)
-console.log(schema)
+console.log(JSON.stringify(schema))

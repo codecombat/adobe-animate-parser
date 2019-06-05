@@ -1,13 +1,13 @@
 /**
- * This is a guess for what sort of raw data could work
- * in our editor.
+ * Hand coded by Andrew.
+ * This represents the data that we expect to return
+ * from an animate file.
  * 
- * If this data imports we can use it to test against
- * our parse function.
- * It's bootstrapped data.
+ * Notice the absence of `containers`.
+ * A major difference from Flash is everything is a `movieclip` or `animation`.
  */
 
- export default {
+export default {
   "containers": [],
 	"shapes": {
 		"0": {
@@ -38,7 +38,13 @@
 						"a": [1]
 					}
 				]
-      ]
+			],
+			"bounds": [
+				-4.6,-69.9,9.2,140
+			],
+			"frameBounds": [
+				[ -4.6,-69.9,9.2,140 ]
+			]
 		},
 		"Scene_1_Layer_1": {
 			"shapes": [],
@@ -92,7 +98,18 @@
             "a": [ 8 ]
           }
         ]
-      ]
+			],
+			"bounds": [ 54.1, 82, 9.2, 140 ],
+			"frameBounds": [
+				[ 54.1, 82, 9.2, 140 ],
+				[ 46.1,97.6,36.2,126.6 ],
+				[ 40.7,115.8,58.7,108.1 ],
+				[ 38.5,135.9,75.2,86.1 ],
+				[ 39.7,156.7,84.6,62.5 ],
+				[ 44.2,177.6,87.6,39 ],
+				[ 51.8,197.4,84.4,18.6 ],
+				[ 62,211.1,76.4,9.2 ]
+			]
     }
 	}
 }

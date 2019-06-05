@@ -54,3 +54,15 @@ A shape
 A tween:
  - Andrew believes is only ever in a movieclip.
  - Moves a shape, container or movieclip.
+
+## Know issues
+
+Raw shapes don't work correctly in our engine.
+They work when you import. But they stop working via an Action referencing an Animation.
+
+Thoughts going forward:
+ - Is wrapping a shape in a container an easy fix?
+ - [YES] Is our game engine fundamentally broken for frame by frame animation.
+
+ - [NO] What if the shape in the animate file is grouped before being tweened?
+    - Andrew checked. Even if you group shapes. Animate unwraps them.
