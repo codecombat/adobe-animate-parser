@@ -66,3 +66,11 @@ Thoughts going forward:
 
  - [NO] What if the shape in the animate file is grouped before being tweened?
     - Andrew checked. Even if you group shapes. Animate unwraps them.
+
+NEXT STEPS:
+
+- [ ] Add CONTAINERS extension
+- [ ] named items
+- [ ] Can we automatically determine entrypoint?
+- [ ] Deterministic imports of IDs for color tintings 
+- [ ] Deduping shapes

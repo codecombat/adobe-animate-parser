@@ -2,15 +2,17 @@ import cjs from './lib/cjs'
 import Animate from './lib/animation'
 
 import lineTween from './fixtures/line-tween/line-tween_HTML5'
+import ninjaWalk from './fixtures/ninjawalk/NinjaWalk_animate'
+
 
 import { parseMovieClip, targetCache, schema } from './lib/parse'
 import translate from './lib/translate'
 
 const animate = new Animate()
-lineTween(cjs, animate)
+ninjaWalk(cjs, animate)
 
 const lib = animate.cocoGetComposition().getLibrary()
-const dataTree = new lib['linetween_HTML5']()
+const dataTree = new lib['NinjaWalkAnimate']()
 
 let parsedMovieClip = parseMovieClip(dataTree)
 

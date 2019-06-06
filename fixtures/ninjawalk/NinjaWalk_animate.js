@@ -1,4 +1,4 @@
-(function (cjs, an) {
+module.exports = function (cjs, an) {
 
   var p; // shortcut to reference prototypes
   var lib={};var ss={};var img={};
@@ -1183,8 +1183,8 @@
   // bootstrap callback support:
   
   (lib.Stage = function(canvas) {
-      createjs.Stage.call(this, canvas);
-  }).prototype = p = new createjs.Stage();
+      cjs.Stage.call(this, canvas);
+  }).prototype = p = new cjs.Stage();
   
   p.setAutoPlay = function(autoPlay) {
       this.tickEnabled = autoPlay;
@@ -1231,5 +1231,4 @@
   
   
   
-  })(createjs = createjs||{}, AdobeAn = AdobeAn||{});
-  var createjs, AdobeAn;
+}
