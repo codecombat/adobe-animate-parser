@@ -11,7 +11,8 @@
   "dependencies": {
     "@babel/plugin-proposal-export-default-from": "^7.2.0",
     "@babel/register": "^7.4.4",
-    "createjs": "^1.0.1"
+    "createjs": "^1.0.1",
+    "lodash": "^4.17.11"
   },
   "devDependencies": {
     "@babel/cli": "^7.4.4",

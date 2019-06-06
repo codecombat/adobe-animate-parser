@@ -12,7 +12,7 @@ module.exports = function (cjs, an) {
   
   (lib.Tween1 = function(mode,startPosition,loop) {
     this.initialize(mode,startPosition,loop,{});
-  
+ 
     // Layer_1
     this.shape = new cjs.Shape();
     this.shape.graphics.f("#0000CC").s().p("AgeK7QgQgDABgdQABgkADgSQACgMAGgSIAJgeQAOgwAGhOQAIhlAChtQAChegFiWQgFjDAAgxIAAjKIACjGQAAgUAIgFQAGgEAJADQAHADAEAGQAGAKgBAUIgBCkQgCCFABBfIAHEKQAEChgDBpQgBAygDAyQgHBpgNA8IgQBBQgIAmgCAbQgBATgDAHQgDAGgGAEQgEADgFAAIgDgBg");
