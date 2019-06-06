@@ -238,3 +238,140 @@ export default {
     }
 	}
 }
+
+
+// {
+// 	"shapes":{
+// 		 "0":{
+// 				"t":[
+// 					 -0.0049,
+// 					 0.0312
+// 				],
+// 				"fc":"#0000CC",
+// 				"p":"AgeK7QgQgDABgdQABgkADgSQACgMAGgSIAJgeQAOgwAGhOQAIhlAChtQAChegFiWQgFjDAAgxIAAjKIACjGQAAgUAIgFQAGgEAJADQAHADAEAGQAGAKgBAUIgBCkQgCCFABBfIAHEKQAEChgDBpQgBAygDAyQgHBpgNA8IgQBBQgIAmgCAbQgBATgDAHQgDAGgGAEQgEADgFAAIgDgBg"
+// 		 }
+// 	},
+// 	"animations":{
+// 		 "4532":{
+// 				"animations":[
+// 					 {
+// 							"bn":"35391",
+// 							"gn":"35391",
+// 							"a": []
+// 					 }
+// 				],
+// 				"shapes":[
+
+// 				],
+// 				"tweens":[
+// 					 [
+// 							{
+// 								 "n":"get",
+// 								 "a":[
+// 										"35391"
+// 								 ]
+// 							},
+// 							{
+// 								 "n":"to",
+// 								 "a":[
+// 										[
+// 											 {
+// 													"scaleY":0.5461,
+// 													"rotation":90,
+// 													"x":50.2,
+// 													"y":140.65
+// 											 },
+// 											 7
+// 										]
+// 								 ]
+// 							},
+// 							{
+// 								 "n":"wait",
+// 								 "a":[
+// 										[
+// 											 1
+// 										]
+// 								 ]
+// 							}
+// 					 ]
+// 				],
+// 				"containers":[
+
+// 				],
+// 				"graphics":[
+
+// 				]
+// 		 },
+// 		 "35391":{
+// 				"animations":[
+
+// 				],
+// 				"shapes":[
+// 					 {
+// 							"bn":"0",
+// 							"gn":"0"
+// 					 }
+// 				],
+// 				"tweens":[
+// 					 [
+// 							{
+// 								 "n":"get",
+// 								 "a":[
+// 										"0"
+// 								 ]
+// 							},
+// 							{
+// 								 "n":"wait",
+// 								 "a":[
+// 										[
+// 											 1
+// 										]
+// 								 ]
+// 							}
+// 					 ]
+// 				],
+// 				"containers":[
+
+// 				],
+// 				"graphics":[
+
+// 				]
+// 		 },
+// 		 "69730":{
+// 				"animations":[
+// 					 {
+// 							"bn":"4532",
+// 							"gn":"4532",
+// 							"a": []
+// 					 }
+// 				],
+// 				"shapes":[
+
+// 				],
+// 				"tweens":[
+// 					 [
+// 							{
+// 								 "n":"get",
+// 								 "a":[
+// 										"4532"
+// 								 ]
+// 							},
+// 							{
+// 								 "n":"wait",
+// 								 "a":[
+// 										[
+// 											 8
+// 										]
+// 								 ]
+// 							}
+// 					 ]
+// 				],
+// 				"containers":[
+
+// 				],
+// 				"graphics":[
+
+// 				]
+// 		 }
+// 	}
+// }
