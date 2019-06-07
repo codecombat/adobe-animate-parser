@@ -69,8 +69,8 @@ Thoughts going forward:
 
 NEXT STEPS:
 
-- [ ] Add CONTAINERS extension
+- [x] NOT DOING - Add CONTAINERS extension
 - [ ] named items
-- [ ] Can we automatically determine entrypoint?
 - [ ] Deterministic imports of IDs for color tintings 
+- [ ] Can we automatically determine entrypoint?
 - [ ] Deduping shapes
