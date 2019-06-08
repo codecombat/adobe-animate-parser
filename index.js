@@ -12,10 +12,12 @@ import translate from './lib/translate'
 
 const cjs = createjs
 let animate
+let library = {}
 
-const importedFile = fs.readFileSync('./fixtures/ninjawalk/NinjaWalk_animate.js')
+const importedFile = fs.readFileSync('fixtures/Pole_Animation_WithoutFilters_JS_CC/Pole_Animation_WithOutFilters_JS CC.js')
 const execution = `
     createjs = cjs;
+    lib = library;
     ${importedFile};
     
     animate = AdobeAn;
@@ -23,14 +25,21 @@ const execution = `
 
 eval(execution)
 
-const animateCompositions = animate.compositions || {}
-const compositionKeys = Object.keys(animateCompositions)
+// If animate compositions is present, extract library from it, otherwise assume script will set it
+if (animate.compositions) {
+    const animateCompositions = animate.compositions
+    const compositionKeys = Object.keys(animateCompositions)
 
-if (compositionKeys.length !== 1) {
-    throw new Error('Unexpected number of compositions')
+    if (compositionKeys.length !== 1) {
+        throw new Error('Unexpected number of compositions')
+    }
+
+    library = animateCompositions[compositionKeys[0]].getLibrary()
 }
 
-const library = animateCompositions[compositionKeys[0]].getLibrary()
+if (Object.keys(library).length === 0) {
+    throw new Error('Nothing in library')
+}
 
 const keyCounts = {}
 const movieClips = {}
@@ -64,6 +73,8 @@ for (const [ key , value ] of Object.entries(keyCounts)) {
         minKey = key
     }
 }
+
+// TODO handle case where there is no clear minimum
 
 let parsedMovieClip = parseMovieClip(movieClips[minKey])
 
