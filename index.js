@@ -86,6 +86,9 @@ parsedMovieClip.tweens = parsedMovieClip.tweens.filter((tween) => {
     return parsedMovieClip._cocoId !== tween.target.reference
 })
 
+// Manually override the entrypoint ID for output
+parsedMovieClip._cocoId = minKey
+
 const outputSchema = translate(schema)
 console.log(JSON.stringify(outputSchema))
 
