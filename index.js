@@ -1,7 +1,6 @@
 import fs from 'fs'
 
 import createjs from './lib/cjs'
-import Animate from './lib/animation'
 
 // import lineTween from './fixtures/line-tween/line-tween_HTML5'
 // import ninjaWalk from './fixtures/ninjawalk/NinjaWalk_animate'
