@@ -1208,15 +1208,15 @@ p.nominalBounds = rect = new cjs.Rectangle(512,264.9,74.1,253.4);
 p.frameBounds = [rect, new cjs.Rectangle(513.3,264.9,78.3,253.4), new cjs.Rectangle(511.5,264.9,86.1,253.4), new cjs.Rectangle(509.1,264.9,86.7,253.4), new cjs.Rectangle(512.4,264.9,81.5,253.4), new cjs.Rectangle(519,264.9,69.4,253.4), new cjs.Rectangle(520.1,264.9,63.5,253.4)];
 // library properties:
 lib.properties = {
-	width: 550,
-	height: 400,
-	fps: 24,
-	color: "#999999",
-	opacity: 1.00,
-	webfonts: {},
-	manifest: [],
-	preloads: []
-};
+		width: 550,
+		height: 400,
+		fps: 24,
+		color: "#999999",
+		opacity: 1.00,
+		webfonts: {},
+		manifest: [],
+		preloads: []
+	};
 
 
 

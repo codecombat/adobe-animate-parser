@@ -91,6 +91,35 @@ parsedMovieClip.tweens = parsedMovieClip.tweens.filter((tween) => {
     return parsedMovieClip._cocoId !== tween.target.reference
 })
 
+if (library.properties) {
+    const {
+      width,
+      height
+    } = library.properties
+
+    if (typeof width !== 'undefined' && typeof height !== 'undefined') {
+        const halfWidth = width / 2
+        const halfHeight = height / 2
+
+        const {
+            bounds,
+            frameBounds
+        } = parsedMovieClip
+
+        if (bounds.length > 0) {
+            bounds[0] -= halfWidth
+            bounds[1] -= halfHeight
+        }
+
+        if (frameBounds.length > 0) {
+            for (const frameBound of frameBounds) {
+                frameBound[0] -= halfWidth
+                frameBound[1] -= halfHeight
+            }
+        }
+    }
+}
+
 // Manually override the entrypoint ID for output
 parsedMovieClip._cocoId = minKey
 
