@@ -91,6 +91,10 @@ parsedMovieClip.tweens = parsedMovieClip.tweens.filter((tween) => {
     return parsedMovieClip._cocoId !== tween.target.reference
 })
 
+// Translate bounding boxes of top level animation.
+//
+// The game engine requires that the bounds are centered around the
+// center of the top level movie clip.
 if (library.properties) {
     const {
       width,
@@ -98,8 +102,8 @@ if (library.properties) {
     } = library.properties
 
     if (typeof width !== 'undefined' && typeof height !== 'undefined') {
-        const halfWidth = width / 2
-        const halfHeight = height / 2
+        const quarterWidth = width / 4
+        const quarterHeight = height / 4
 
         const {
             bounds,
@@ -107,14 +111,14 @@ if (library.properties) {
         } = parsedMovieClip
 
         if (bounds.length > 0) {
-            bounds[0] -= halfWidth
-            bounds[1] -= halfHeight
+            bounds[0] -= quarterWidth
+            bounds[1] -= quarterHeight
         }
 
         if (frameBounds.length > 0) {
             for (const frameBound of frameBounds) {
-                frameBound[0] -= halfWidth
-                frameBound[1] -= halfHeight
+                frameBound[0] -= quarterWidth
+                frameBound[1] -= quarterHeight
             }
         }
     }
