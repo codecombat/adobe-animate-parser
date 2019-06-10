@@ -13,7 +13,7 @@ const cjs = createjs
 let animate
 let library = {}
 
-const importedFile = fs.readFileSync('fixtures/robot_ball/Robo_Bomb_Death.js')
+const importedFile = fs.readFileSync('fixtures/Pole_Animation_WithoutFilters_JS_CC/Pole_Animation_WithOutFilters_JS CC.js')
 const execution = `
     createjs = cjs;
    
