@@ -6,7 +6,9 @@ import AdobeAnimateParser from '../src/index'
 import translate from '../src/lib/translate'
 
 const fixture_tests = [
+  [ 'spec/fixtures/robo_ball_input.js', './fixtures/robo_ball_output.json' ],
   [ 'spec/fixtures/pole_input.js', './fixtures/pole_output.json' ],
+  [ 'spec/fixtures/ninja_walk_input.js', './fixtures/ninja_walk_output.json' ],
 ]
 
 describe("fixture tests", () => {
@@ -19,7 +21,11 @@ describe("fixture tests", () => {
       const tranlsatedOutput = translate(parser.parsedEntryPoint)
       const expectedOutput = require(resultFile)
 
-      expect(isEqual(tranlsatedOutput, expectedOutput)).toBe(true)
+      expect(isEqual(
+        // Stringify to JSON and back to ensure that undefined properties are normalized for isEqual comparison
+        JSON.parse(JSON.stringify(tranlsatedOutput)),
+        JSON.parse(JSON.stringify(expectedOutput))
+      )).toBe(true)
     })
   }
 })
