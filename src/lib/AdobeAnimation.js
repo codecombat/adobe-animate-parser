@@ -1,7 +1,7 @@
-import sandboxFunction from './util/sandboxedFunction'
-import createjs from './lib/cjs'
+import sandboxFunction from '../util/sandboxedFunction'
+import createjs from './cjs'
 
-import AnimateParser from './lib/parse'
+import AnimateParser from './parse'
 
 export default class AdobeAnimation {
   constructor (animationFile) {
