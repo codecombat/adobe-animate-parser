@@ -1,4 +1,4 @@
-import { create } from 'lodash'
+import create from 'lodash.create'
 
 import CocoSchema from './CocoSchema'
 
