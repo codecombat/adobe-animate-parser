@@ -96,13 +96,16 @@ export default class AdobeAnimation {
    * Find every top level movie clip exposed from the library and mod
    */
   findAndMonitorLibraryMovieClips () {
+    this.constructorCallCounts = {}
+    const constructorCallCounts = this.constructorCallCounts
+
     for (const [ key, value ] of Object.entries(this.library)) {
       if (value.prototype instanceof createjs.MovieClip) {
         const wrappedLibraryFunction = function (...args) {
           this.cocoSchema.constructorArgs = args
 
-          this.constructor.cocoCallCount = this.constructor.cocoCallCount || 0
-          this.constructor.cocoCallCount += 1
+          constructorCallCounts[key] = constructorCallCounts[key] || 0
+          constructorCallCounts[key] += 1
 
           return value.call(this, ...args)
         }
@@ -130,9 +133,7 @@ export default class AdobeAnimation {
     let minCount = Infinity
     let numOccurrencesOfMin
 
-    for (const [ key , clip ] of Object.entries(this.movieClips)) {
-      const value = clip.prototype.constructor.cocoCallCount
-
+    for (const [ key , value ] of Object.entries(this.constructorCallCounts)) {
       if (value < minCount) {
         minCount = value
         minKey = key

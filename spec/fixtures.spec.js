@@ -6,6 +6,8 @@ import AdobeAnimateParser from '../src/index'
 import translate from '../src/lib/translate'
 
 const fixture_tests = [
+  [ 'spec/fixtures/robo_ball_input.js', './fixtures/robo_ball_output.json' ],
+  [ 'spec/fixtures/pole_input.js', './fixtures/pole_output.json' ],
   [ 'spec/fixtures/ninja_walk_input.js', './fixtures/ninja_walk_output.json' ],
 ]
 
