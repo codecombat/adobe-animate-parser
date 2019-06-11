@@ -1,5 +1,5 @@
 {
-  "name": "codecombat-adobe-animate-parser",
+  "name": "adobe-animate-parser",
   "version": "0.0.3",
   "description": "Parses CreateJS based Adobe Animate Files",
   "main": "index.js",
