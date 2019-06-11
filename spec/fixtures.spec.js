@@ -1,6 +1,6 @@
 import fs from 'fs'
 
-import { isEqual } from 'lodash'
+import isEqual from 'lodash.isequal'
 
 import AdobeAnimateParser from '../src/index'
 import translate from '../src/lib/translate'
