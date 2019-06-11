@@ -6,3 +6,4 @@ dist
 # These are output during prepare step
 /lib
 /index.js
+/util
