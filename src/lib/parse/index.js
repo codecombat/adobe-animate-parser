@@ -5,24 +5,14 @@ import MovieClip from '../cjs/MovieClip';
 import Shadow from '../cjs/Shadow';
 import Shape from '../cjs/Shape';
 import Tween from '../cjs/Tween';
-
-function randomString(length) {
-    var result = ''
-    var characters = 'abcdefghijklmnopqrstuvwxyz0123456789'
-    var charactersLength = characters.length
-
-    for ( var i = 0; i < length; i++ ) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength))
-    }
-
-    return result
-}
+import AnimateNode from './AnimateNode'
+import AnimateNodeReference from './AnimateNodeReference'
 
 export default class AnimateParser {
     constructor () {
         this.targetCache = {
-            parsed: {},
-            original: {}
+            original: {},
+            parsed: {}
         }
 
         this.schema = {
@@ -35,24 +25,32 @@ export default class AnimateParser {
         this.idCounter = 0
     }
 
+    nextId () {
+        return `temp_${this.idCounter++}`
+    }
+
     markParsed (target) {
         if (this.haveParsed(target)) {
             return
         }
 
-        this.applyId(target, `temp_${this.idCounter++}`)
-        this.targetCache.original[target._cocoId] = target
+        const tempId = this.nextId()
+        this.applyParsedId(target, tempId)
+
+        this.targetCache.original[tempId] = target
+
+        return tempId
     }
 
     haveParsed (target) {
-        return (typeof this.getId(target) !== 'undefined')
+        return (typeof this.getParsedId(target) !== 'undefined')
     }
 
-    getId (target) {
+    getParsedId (target) {
         return target._cocoId
     }
 
-    applyId (target, id) {
+    applyParsedId (target, id) {
         target._cocoId = id
         return target
     }
@@ -81,45 +79,40 @@ export default class AnimateParser {
     }
 
     getReference (entityOrReference) {
-        if (entityOrReference.reference) {
+        if (entityOrReference instanceof AnimateNodeReference) {
             return entityOrReference
         }
 
-        // TODO this type logic should be consolidated with the logic below
-        let type = entityOrReference.type
-        if(!entityOrReference.type) {
-            if (entityOrReference instanceof MovieClip) {
-                type = 'movie_clip'
-            } else if (entityOrReference instanceof Shape) {
-                type = 'shape'
-            } else if (entityOrReference instanceof Shadow) {
-                type = 'shadow'
-            } else if (entityOrReference instanceof Tween) {
-                type = 'tween'
-            } else {
-                throw new Error('Invalid tween target')
-            }
+        let originalNode = entityOrReference
+        let referencedNodeId
+        if (entityOrReference instanceof AnimateNode) {
+            referencedNodeId = entityOrReference.id
+        } else {
+            referencedNodeId = this.getParsedId(entityOrReference)
         }
 
-        const reference = {
-            type,
-
-            // TODO reference should NOT contain original
-            original: entityOrReference,
-            originalParsed: this.targetCache.parsed[this.getId(entityOrReference)],
-
-            reference: this.getId(entityOrReference)
-        }
-
-        this.markParsed(reference)
+        const reference = new AnimateNodeReference('', referencedNodeId, this.targetCache)
+        const tempId = this.markParsed(reference)
+        reference.id = tempId
 
         this.schema.references.push(reference)
         return reference
     }
 
     resolveEntity (entityOrReference) {
-        if (entityOrReference.reference) {
-            return this.targetCache[entityOrReference.reference]
+        if (entityOrReference instanceof AnimateNodeReference) {
+            const { nodeId } = entityOrReference
+
+            const animateNode = this.targetCache.parsed[nodeId]
+            if (!animateNode) {
+                throw new Error('Animate node not found from reference')
+            }
+
+            return animateNode.original
+        }
+
+        if (entityOrReference instanceof AnimateNode) {
+            return entityOrReference.original
         }
 
         return entityOrReference
@@ -130,7 +123,19 @@ export default class AnimateParser {
             return undefined
         }
 
-        return rectangle.cocoSchema.rectangleConfig
+        const tempId = this.markParsed(rectangle)
+        const result = new AnimateNode(
+          tempId,
+          'rectangle',
+          rectangle,
+          rectangle.cocoSchema.rectangleConfig
+        )
+
+        // TODO enable again
+        // const originalId = result.finalizeId()
+        // this.finalizeId(result)
+
+        return result
     }
 
     parseShape (shape) {
@@ -138,26 +143,32 @@ export default class AnimateParser {
             return this.getReference(shape)
         }
 
-        this.markParsed(shape)
+        const tempId = this.markParsed(shape)
 
         const {
             frameBounds,
             nominalBounds
         } = shape
 
-        const result = this.applyId({
-            type: 'shape',
+        const result = new AnimateNode(
+          tempId,
+          'shape',
+          shape,
+          {
+              frameBounds,
+              bounds: nominalBounds,
 
-            frameBounds,
-            bounds: nominalBounds,
+              transform: shape.cocoSchema.transform,
+              graphics: (shape.graphics || {}).cocoSchema
+          }
+        )
 
-            transform: shape.cocoSchema.transform,
-            graphics: (shape.graphics || {}).cocoSchema
-        }, this.getId(shape))
+        // TODO enable again
+        // const originalId = result.finalizeId()
+        // this.finalizeId(result)
 
-        this.finalizeId(result)
         this.schema.shapes.push(result)
-        this.targetCache.parsed[this.getId(result)] = result
+        this.targetCache.parsed[result.id] = result
 
         return result
     }
@@ -167,13 +178,12 @@ export default class AnimateParser {
             return this.getReference(movieClip)
         }
 
-        this.markParsed(movieClip)
+        const tempId = this.markParsed(movieClip)
 
         const {
             frameBounds,
             nominalBounds
         } = movieClip
-
 
         const { tweens } = movieClip.timeline
 
@@ -182,22 +192,29 @@ export default class AnimateParser {
             parsedFrameBounds = frameBounds.map(fb => this.parseRectangle(fb))
         }
 
-        const result = this.applyId({
-            type: 'movie_clip',
+        const parsedTweens = tweens.map(t => this.parseTween(t))
 
-            // TODO probably use object spread operator for these
-            constructorArgs: movieClip.cocoSchema.constructorArgs,
-            transform: movieClip.cocoSchema.transform,
+        const result = new AnimateNode(
+          tempId,
+          'movie_clip',
+          movieClip,
+          {
+              constructorArgs: movieClip.cocoSchema.constructorArgs,
+              transform: movieClip.cocoSchema.transform,
 
-            bounds: this.parseRectangle(nominalBounds),
-            frameBounds: parsedFrameBounds,
+              bounds: this.parseRectangle(nominalBounds),
+              frameBounds: parsedFrameBounds,
 
-            tweens: tweens.map(t => this.parseTween(t))
-        }, this.getId(movieClip))
+              tweens: parsedTweens
+          }
+        )
 
-        this.finalizeId(result)
+        // TODO enable again
+        // const originalId = result.finalizeId()
+        // this.finalizeId(result)
+
         this.schema.animations.push(result)
-        this.targetCache.parsed[this.getId(result)] = result
+        this.targetCache.parsed[result.id] = result
 
         return result
     }
@@ -207,7 +224,7 @@ export default class AnimateParser {
             return this.getReference(tween)
         }
 
-        this.markParsed(tween)
+        const tempId = this.markParsed(tween)
 
         const { target } = tween
 
@@ -223,29 +240,37 @@ export default class AnimateParser {
             throw new Error('Invalid tween target')
         }
 
-        const result = this.applyId({
-            type: 'tween',
+        const tweenCalls = this.parseNativeJsObject(tween.cocoSchema.methodCalls)
 
-            target: this.getReference(parsedTarget),
-            tweenCalls: this.parseNativeJsObject(tween.cocoSchema.methodCalls)
-        }, this.getId(tween))
+        const result = new AnimateNode(
+          tempId,
+          'tween',
+          tween,
+          {
+              target: this.getReference(parsedTarget),
+              tweenCalls
+          }
+        )
 
-        this.finalizeId(result)
-        this.targetCache.parsed[this.getId(result)] = result
+        // TODO enable again
+        // const originalId = result.finalizeId()
+        // this.finalizeId(result)
 
+        this.targetCache.parsed[result.id] = result
         return result
     }
 
-// This function only supports simple JSON objects but does not exactly check for them
+    // This function only supports simple JSON objects but does not exactly check for them
     parseNativeJsObject (object) {
         if (this.haveParsed(object)) {
-            return getReference(object)
+            return this.getReference(object)
         }
 
         // We shallow clone so we can capture the object without the parsing metadata.  We
         // may need to deep clone at some point.
         const shallowClone = clone(object)
-        this.markParsed(object)
+
+        const tempId = this.markParsed(object)
 
         const parsedObject = (Array.isArray(shallowClone)) ? [] : {}
         for (const [ key, value] of Object.entries(shallowClone)) {
@@ -273,13 +298,23 @@ export default class AnimateParser {
             parsedObject[key] = parsedTarget
         }
 
-        const result = this.applyId({
-            type: 'native_object',
-            object: parsedObject
-        }, this.getId(object))
+        const result = new AnimateNode(
+          tempId,
+          'native_object',
+          shallowClone,
+          {
+              // This is redundant but allows finalizeId to create a unique ID because
+              // it is currently based on the data contents and type only
+              object: shallowClone
+          }
+        )
 
-        this.finalizeId(result)
-        this.targetCache.parsed[this.getId(result)] = result
+
+        // TODO enable again
+        // const originalId = result.finalizeId()
+        // this.finalizeId(result)
+
+        this.targetCache.parsed[result.id] = result
 
         return result
     }

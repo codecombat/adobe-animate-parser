@@ -164,9 +164,9 @@ export default class AdobeAnimation {
     // For now assume top level is a movie clip and the top level has
     // a self referencing tween that we do not support.
     // We assume this self referencing tween is always the first tween.
-    this._parsedEntryPoint.tweens = this._parsedEntryPoint.tweens.filter((tween) => {
+    this._parsedEntryPoint.data.tweens = this._parsedEntryPoint.data.tweens.filter((tween) => {
       // TODO remove direct _cocoId reference here
-      return this._parsedEntryPoint._cocoId !== tween.target.reference
+      return this._parsedEntryPoint.id !== tween.node.id
     })
 
     // Translate bounding boxes of top level animation.
@@ -184,25 +184,25 @@ export default class AdobeAnimation {
         const quarterHeight = height / 4
 
         const {
-          bounds,
-          frameBounds
-        } = this._parsedEntryPoint
+          bounds: boundsNode,
+          frameBounds: frameBoundsNodes
+        } = this._parsedEntryPoint.data
 
-        if (bounds.length > 0) {
-          bounds[0] -= quarterWidth
-          bounds[1] -= quarterHeight
+        if (boundsNode.node.length > 0) {
+          boundsNode.node[0] -= quarterWidth
+          boundsNode.node[1] -= quarterHeight
         }
 
-        if (frameBounds.length > 0) {
-          for (const frameBound of frameBounds) {
-            frameBound[0] -= quarterWidth
-            frameBound[1] -= quarterHeight
+        if (frameBoundsNodes.length > 0) {
+          for (const frameBoundNode of frameBoundsNodes) {
+            frameBoundNode.node[0] -= quarterWidth
+            frameBoundNode.node[1] -= quarterHeight
           }
         }
       }
     }
 
-    this._parsedEntryPoint._cocoId = this.entryPointName
+    this._parsedEntryPoint.id = this.entryPointName
 
     this.treeParsed = true
   }
