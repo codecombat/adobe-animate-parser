@@ -1,7 +1,7 @@
 import sandboxFunction from './util/sandboxedFunction'
 import createjs from './lib/cjs'
 
-import { parseMovieClip, schema } from './lib/parse'
+import AnimateParser from './lib/parse'
 
 export default class AdobeAnimation {
   constructor (animationFile) {
@@ -23,7 +23,7 @@ export default class AdobeAnimation {
 
     this.findEntryPoint()
 
-    this.walkTree()
+    this.parseTree()
   }
 
   get entryPoint () {
@@ -35,11 +35,11 @@ export default class AdobeAnimation {
   }
 
   get parsedEntryPoint () {
-    if (!this.treeWalked) {
+    if (!this.treeParsed) {
       throw new Error('Entry point not parsed')
     }
 
-    return schema
+    return this.animateParser.schema
   }
 
   import () {
@@ -156,8 +156,9 @@ export default class AdobeAnimation {
     return this.entryPointName
   }
 
-  walkTree () {
-    this._parsedEntryPoint = parseMovieClip(this.animationTrees[this.entryPointName])
+  parseTree () {
+    this.animateParser = new AnimateParser()
+    this._parsedEntryPoint = this.animateParser.parseMovieClip(this.animationTrees[this.entryPointName])
 
     // For now assume top level is a movie clip and the top level has
     // a self referencing tween that we do not support.
@@ -202,6 +203,6 @@ export default class AdobeAnimation {
 
     this._parsedEntryPoint._cocoId = this.entryPointName
 
-    this.treeWalked = true
+    this.treeParsed = true
   }
 }
