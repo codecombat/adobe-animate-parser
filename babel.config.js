@@ -1,4 +1,4 @@
-{
+module.exports = {
     "presets": [
         "@babel/preset-env"
     ],
@@ -8,7 +8,7 @@
         "@babel/plugin-proposal-object-rest-spread"
     ],
 
-    "sourceMaps": "inline",
+    "sourceMaps": (process.env.COCO_BUILD) ? true : "inline",
     "retainLines": true,
 
     "ignore": [
