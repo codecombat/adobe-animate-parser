@@ -6,14 +6,14 @@ import createjs from './lib/cjs'
 // import ninjaWalk from './fixtures/ninjawalk/NinjaWalk_animate'
 // import stateTween from './fixtures/state_tween/stateTween'
 
-import { parseMovieClip, targetCache, schema } from './lib/parse'
+import { parseMovieClip, schema } from './lib/parse'
 import translate from './lib/translate'
 
 const cjs = createjs
 let animate
 let library = {}
 
-const importedFile = fs.readFileSync('fixtures/Pole_Animation_WithoutFilters_JS_CC/Pole_Animation_WithOutFilters_JS CC.js')
+const importedFile = fs.readFileSync('../fixtures/ninjawalk/NinjaWalk_animate.original.js')
 const execution = `
     createjs = cjs;
    

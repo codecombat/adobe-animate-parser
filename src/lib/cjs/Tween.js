@@ -9,7 +9,7 @@ export default class Tween extends CocoSchema {
         super ()
 
         this.cocoSchema.target = target
-        this.cocoSchema.methodCalls = methodCalls
+        this.cocoSchema.methodCalls = []
     }
 
     wait (...args) {

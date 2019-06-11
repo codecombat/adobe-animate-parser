@@ -1,5 +1,7 @@
 import { create } from 'lodash'
 
+import CocoSchema from './CocoSchema'
+
 import Shape from './Shape'
 import Rectangle from './Rectangle'
 import MovieClip from './MovieClip'
@@ -26,8 +28,8 @@ function extend (subclass, superclass) {
   })
 
   const extendedClassInstance = new ExtendedClass()
-  if (extendedClassInstance._cocoSchema) {
-    delete extendedClassInstance._cocoSchema
+  if (extendedClassInstance instanceof CocoSchema) {
+    extendedClassInstance.deleteCocoSchema()
   }
 
   return extendedClassInstance

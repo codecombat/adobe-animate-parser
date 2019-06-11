@@ -4,6 +4,7 @@
     "**/*[sS]pec.js"
   ],
   "helpers": [
+    "../node_modules/@babel/register/lib",
     "helpers/**/*.js"
   ],
   "stopSpecOnExpectationFailure": false,
