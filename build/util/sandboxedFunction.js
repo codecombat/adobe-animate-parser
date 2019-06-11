@@ -1,0 +1,15 @@
+"use strict";Object.defineProperty(exports, "__esModule", { value: true });exports["default"] = sandboxFunction;function has(target, key) {
+  return true;
+}
+
+// Taken from https://blog.risingstack.com/writing-a-javascript-framework-sandboxed-code-evaluation/
+function sandboxFunction(src) {
+  src = 'with (sandbox) {' + src + '}';
+  var code = new Function('sandbox', src);
+
+  return function (sandbox) {
+    var sandboxProxy = new Proxy(sandbox, { has: has });
+    return code(sandboxProxy);
+  };
+}
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL3NyYy91dGlsL3NhbmRib3hlZEZ1bmN0aW9uLmpzIl0sIm5hbWVzIjpbImhhcyIsInRhcmdldCIsImtleSIsInNhbmRib3hGdW5jdGlvbiIsInNyYyIsImNvZGUiLCJGdW5jdGlvbiIsInNhbmRib3giLCJzYW5kYm94UHJveHkiLCJQcm94eSJdLCJtYXBwaW5ncyI6ImdIQUFBLFNBQVNBLEdBQVQsQ0FBY0MsTUFBZCxFQUFzQkMsR0FBdEIsRUFBMkI7QUFDekIsU0FBTyxJQUFQO0FBQ0Q7O0FBRUQ7QUFDZSxTQUFTQyxlQUFULENBQTBCQyxHQUExQixFQUErQjtBQUM1Q0EsRUFBQUEsR0FBRyxHQUFHLHFCQUFxQkEsR0FBckIsR0FBMkIsR0FBakM7QUFDQSxNQUFNQyxJQUFJLEdBQUcsSUFBSUMsUUFBSixDQUFhLFNBQWIsRUFBd0JGLEdBQXhCLENBQWI7O0FBRUEsU0FBTyxVQUFVRyxPQUFWLEVBQW1CO0FBQ3hCLFFBQU1DLFlBQVksR0FBRyxJQUFJQyxLQUFKLENBQVVGLE9BQVYsRUFBbUIsRUFBQ1AsR0FBRyxFQUFIQSxHQUFELEVBQW5CLENBQXJCO0FBQ0EsV0FBT0ssSUFBSSxDQUFDRyxZQUFELENBQVg7QUFDRCxHQUhEO0FBSUQiLCJzb3VyY2VzQ29udGVudCI6WyJmdW5jdGlvbiBoYXMgKHRhcmdldCwga2V5KSB7XG4gIHJldHVybiB0cnVlXG59XG5cbi8vIFRha2VuIGZyb20gaHR0cHM6Ly9ibG9nLnJpc2luZ3N0YWNrLmNvbS93cml0aW5nLWEtamF2YXNjcmlwdC1mcmFtZXdvcmstc2FuZGJveGVkLWNvZGUtZXZhbHVhdGlvbi9cbmV4cG9ydCBkZWZhdWx0IGZ1bmN0aW9uIHNhbmRib3hGdW5jdGlvbiAoc3JjKSB7XG4gIHNyYyA9ICd3aXRoIChzYW5kYm94KSB7JyArIHNyYyArICd9J1xuICBjb25zdCBjb2RlID0gbmV3IEZ1bmN0aW9uKCdzYW5kYm94Jywgc3JjKVxuXG4gIHJldHVybiBmdW5jdGlvbiAoc2FuZGJveCkge1xuICAgIGNvbnN0IHNhbmRib3hQcm94eSA9IG5ldyBQcm94eShzYW5kYm94LCB7aGFzfSlcbiAgICByZXR1cm4gY29kZShzYW5kYm94UHJveHkpXG4gIH1cbn1cbiJdfQ==
