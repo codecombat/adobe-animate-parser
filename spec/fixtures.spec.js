@@ -17,14 +17,13 @@ describe("fixture tests", () => {
       const parser = new AdobeAnimation(importedFile.toString())
 
       parser.parse()
-      const tranlsatedOutput = translate(parser.parsedEntryPoint)
+      const translatedOutput = translate(parser.parsedEntryPoint)
       const expectedOutput = require(resultFile)
 
-      expect(isEqual(
-        // Stringify to JSON and back to ensure that undefined properties are normalized for isEqual comparison
-        JSON.parse(JSON.stringify(tranlsatedOutput)),
-        JSON.parse(JSON.stringify(expectedOutput))
-      )).toBe(true)
+      expect(
+        // This is required currently as translated output has undefined errors in it.
+        JSON.parse(JSON.stringify(translatedOutput)),
+      ).toEqual(expectedOutput)
     })
   }
 })
