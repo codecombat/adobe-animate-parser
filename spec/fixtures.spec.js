@@ -4,10 +4,10 @@ import isEqual from 'lodash.isequal'
 import { AdobeAnimation, translate } from '../src/index'
 
 const fixture_tests = [
-  // [ 'spec/fixtures/robo_ball_input.js', './fixtures/robo_ball_output.json' ],
+  [ 'spec/fixtures/robo_ball_input.js', './fixtures/robo_ball_output.json' ],
   [ 'spec/fixtures/hero_a_input.js', './fixtures/hero_a_output.json' ],
-  // [ 'spec/fixtures/pole_input.js', './fixtures/pole_output.json' ],
-  // [ 'spec/fixtures/ninja_walk_input.js', './fixtures/ninja_walk_output.json' ],
+  [ 'spec/fixtures/pole_input.js', './fixtures/pole_output.json' ],
+  [ 'spec/fixtures/ninja_walk_input.js', './fixtures/ninja_walk_output.json' ],
 ]
 
 describe("fixture tests", () => {

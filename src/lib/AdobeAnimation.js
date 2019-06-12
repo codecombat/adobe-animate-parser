@@ -194,7 +194,7 @@ export default class AdobeAnimation {
           resolvedBoundsNode.data[1] -= quarterHeight
         }
 
-        if (frameBoundsNodes.length > 0) {
+        if (frameBoundsNodes && frameBoundsNodes.length > 0) {
           for (const frameBoundNode of frameBoundsNodes) {
             const resolvedFrameBoundNode = frameBoundNode.node
 
