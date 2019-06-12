@@ -188,15 +188,18 @@ export default class AdobeAnimation {
           frameBounds: frameBoundsNodes
         } = this._parsedEntryPoint.data
 
-        if (boundsNode.node.length > 0) {
-          boundsNode.node[0] -= quarterWidth
-          boundsNode.node[1] -= quarterHeight
+        const resolvedBoundsNode = boundsNode.node
+        if (resolvedBoundsNode.data.length > 0) {
+          resolvedBoundsNode.data[0] -= quarterWidth
+          resolvedBoundsNode.data[1] -= quarterHeight
         }
 
         if (frameBoundsNodes.length > 0) {
           for (const frameBoundNode of frameBoundsNodes) {
-            frameBoundNode.node[0] -= quarterWidth
-            frameBoundNode.node[1] -= quarterHeight
+            const resolvedFrameBoundNode = frameBoundNode.node
+
+            resolvedFrameBoundNode.data[0] -= quarterWidth
+            resolvedFrameBoundNode.data[1] -= quarterHeight
           }
         }
       }

@@ -301,11 +301,11 @@ export default class AnimateParser {
         const result = new AnimateNode(
           tempId,
           'native_object',
-          shallowClone,
+          parsedObject,
           {
               // This is redundant but allows finalizeId to create a unique ID because
               // it is currently based on the data contents and type only
-              object: shallowClone
+              object: parsedObject
           }
         )
 

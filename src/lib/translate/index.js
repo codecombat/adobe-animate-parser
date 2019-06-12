@@ -1,3 +1,5 @@
+import AnimateNode from '../parse/AnimateNode'
+
 let blockNameCounter = {}
 
 // TODO we need to figure out how to generate unqiue block names for all variables
@@ -14,38 +16,50 @@ function getBlockNameVar (targetId, blockNameMappings) {
     return blockName
 }
 
+function translateBounds (boundsData) {
+    if (Array.isArray(boundsData)) {
+        return boundsData.map((bounds) => translateBounds(bounds))
+    }
+
+    if (boundsData instanceof AnimateNode) {
+        const resolvedBoundsData = boundsData.node
+
+        return resolvedBoundsData.data
+    }
+
+    return boundsData
+}
+
 function dereferenceNativeObject (nativeObject, movieClipRefs = [], shapeRefs = [], blockNameMappings) {
-    const outputObject = (Array.isArray(nativeObject.object)) ? [] : {}
+    const resolvedNativeObject = nativeObject.node
 
-    for (const [ key, value ] of Object.entries(nativeObject.object)) {
+    const outputObject = (Array.isArray(resolvedNativeObject.data.object)) ? [] : {}
+
+    for (const [ key, value ] of Object.entries(resolvedNativeObject.data.object)) {
         let dereferencedValue = value
-        if (typeof value === 'object') {
-            let resolvedValue = value
 
-            // TODO this should be done elsewhere
-            if (value.reference) {
-                resolvedValue = value.original
-            }
+        if (value instanceof AnimateNode) {
+            let resolvedValue = value.node
 
             // If this is an object we have a complex type that we need to unwind
             if (resolvedValue.type === 'movie_clip') {
                 movieClipRefs.push({
-                    bn: getBlockNameVar(resolvedValue._cocoId, blockNameMappings),
-                    gn: resolvedValue._cocoId,
-                    a: resolvedValue.constructorArgs,
-                    t: resolvedValue.transform
+                    bn: getBlockNameVar(resolvedValue.id, blockNameMappings),
+                    gn: resolvedValue.id,
+                    a: resolvedValue.data.constructorArgs,
+                    t: resolvedValue.data.transform
                 })
 
                 // Replace with the ID, it will be properly handled when rebuilt
                 dereferencedValue = blockNameMappings[resolvedValue._cocoId] // TODO can we pull this out in a better way
             } else if (resolvedValue.type === 'shape') {
                 shapeRefs.push({
-                    bn: getBlockNameVar(resolvedValue._cocoId, blockNameMappings),
-                    gn: resolvedValue._cocoId,
+                    bn: getBlockNameVar(resolvedValue.id, blockNameMappings),
+                    gn: resolvedValue.id
                 })
 
                 // Replace with the ID, it will be properly handled when rebuilt
-                dereferencedValue = blockNameMappings[resolvedValue._cocoId] // TODO can we pull this out in a better way
+                dereferencedValue = blockNameMappings[resolvedValue.id] // TODO can we pull this out in a better way
             } else if (value.type === 'native_object') {
                 dereferencedValue = dereferenceNativeObject(resolvedValue, movieClipRefs, shapeRefs, blockNameMappings)
             } else {
@@ -62,53 +76,58 @@ function dereferenceNativeObject (nativeObject, movieClipRefs = [], shapeRefs = 
 export default function (schema) {
     const finalShapes = {}
     for (const shape of schema.shapes) {
-        let transform
-        if (shape.transform) {
-            transform = [
-                shape.transform.x,
-                shape.transform.y
+        const resolvedShape = shape.node
+
+        const translatedShape = {
+            ...(resolvedShape.data.graphics || {})
+        }
+
+        if (resolvedShape.data.transform) {
+            translatedShape.t = [
+                resolvedShape.data.transform.x,
+                resolvedShape.data.transform.y
             ]
         }
 
-        finalShapes[shape._cocoId] = {
-            t: transform,
-
-            bounds: shape.bounds,
-            frameBounds: shape.frameBounds,
-
-            ...(shape.graphics || {})
+        if (resolvedShape.data.bounds) {
+           translatedShape.bounds = translateBounds(resolvedShape.data.bounds)
         }
+
+        if (resolvedShape.data.frameBounds) {
+            translatedShape.frameBounds = translateBounds(resolvedShape.data.frameBounds)
+        }
+
+        finalShapes[resolvedShape.id] = translatedShape
     }
 
     const finalAnimations = {}
     for (const animation of schema.animations) {
+        const resolvedAnimation = animation.node
+
         const shapes = []
         const animations = []
         const tweens = []
 
         const blockNameMappings = {}
 
-        for (const tween of animation.tweens) {
+        for (const tween of resolvedAnimation.data.tweens) {
             const finalTween = []
 
-            // TODO this should be generalized to a resolve method
-            let resolvedTween = tween
-            if (resolvedTween.reference) {
-                resolvedTween = resolvedTween.originalParsed
-            }
+            const resolvedTween = tween.node
+            const resolvedTarget = resolvedTween.data.target.node
 
-            switch (resolvedTween.target.type) {
+            switch (resolvedTarget.type) {
                 case 'movie_clip':
                     animations.push({
-                        bn: getBlockNameVar(tween.target.reference, blockNameMappings),
-                        gn: tween.target.reference,
-                        a: tween.target.original.constructorArgs,
-                        t: tween.target.original.transform
+                        bn: getBlockNameVar(resolvedTarget.id, blockNameMappings),
+                        gn: resolvedTarget.id,
+                        a: resolvedTarget.data.constructorArgs,
+                        t: resolvedTarget.data.transform
                     })
 
                     finalTween.push({
                         n: 'get',
-                        a: [ blockNameMappings[tween.target.reference] ]
+                        a: [ blockNameMappings[resolvedTarget.id] ]
                     })
 
                     break
@@ -116,13 +135,13 @@ export default function (schema) {
 
                 case 'shape':
                     shapes.push({
-                        bn: getBlockNameVar(tween.target.reference, blockNameMappings),
-                        gn: tween.target.reference
+                        bn: getBlockNameVar(resolvedTarget.id, blockNameMappings),
+                        gn: resolvedTarget.id
                     })
 
                     finalTween.push({
                         n: 'get',
-                        a: [ blockNameMappings[tween.target.reference] ]
+                        a: [ blockNameMappings[resolvedTarget.id] ]
                     })
 
                     break
@@ -130,7 +149,7 @@ export default function (schema) {
                 case 'native_object':
                     finalTween.push({
                         n: 'get',
-                        a: [ tween.target.original.object ]
+                        a: [ resolvedTarget.data.object ]
                     })
 
                     break
@@ -141,7 +160,7 @@ export default function (schema) {
             }
 
             const dereferencedTweenCalls = dereferenceNativeObject(
-              tween.tweenCalls, animations, shapes, blockNameMappings
+              resolvedTween.data.tweenCalls, animations, shapes, blockNameMappings
             )
 
             for (const methodCall of dereferencedTweenCalls) {
@@ -154,15 +173,25 @@ export default function (schema) {
             tweens.push(finalTween)
         }
 
-        finalAnimations[animation._cocoId] = {
+        const translatedAnimation = {
             animations,
             shapes,
             tweens,
             containers: [],
             graphics: [],
-            bounds: animation.bounds,
-            frameBounds: animation.frameBounds
+            bounds: resolvedAnimation.bounds,
+            frameBounds: resolvedAnimation.frameBounds
         }
+
+        if (resolvedAnimation.data.bounds) {
+            translatedAnimation.bounds = translateBounds(resolvedAnimation.data.bounds)
+        }
+
+        if (resolvedAnimation.data.frameBounds) {
+            translatedAnimation.frameBounds = translateBounds(resolvedAnimation.data.frameBounds)
+        }
+
+        finalAnimations[resolvedAnimation.id] = translatedAnimation
     }
 
     return {
