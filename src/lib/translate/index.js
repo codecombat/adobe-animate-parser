@@ -194,8 +194,12 @@ export default function (schema) {
         finalAnimations[resolvedAnimation.id] = translatedAnimation
     }
 
-    return {
+    const result = {
         shapes: finalShapes,
         animations: finalAnimations
     }
+
+    // TODO fix code to not insert undefineds
+    // Remove undefineds
+    return JSON.parse(JSON.stringify(result))
 }
