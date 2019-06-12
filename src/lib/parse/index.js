@@ -55,27 +55,19 @@ export default class AnimateParser {
         return target
     }
 
-    finalizeId (parsedObject) {
-        const {
-            _cocoId,
-            ...objectWithoutId
-        } = parsedObject
+    updatedId (oldId, animateNode) {
+        this.targetCache.original[animateNode.id] = this.targetCache.original[oldId]
+        delete this.targetCache.original[oldId]
 
-        const finalId = objectHash(objectWithoutId)
+        this.targetCache.parsed[animateNode.id] = this.targetCache.parsed[oldId]
+        delete this.targetCache.parsed[oldId]
 
-        this.applyId(parsedObject, finalId)
-        this.targetCache.original[finalId] = parsedObject
-        delete this.targetCache.original[_cocoId]
-
-        // TODO potentially inefficient
+        // TODO inefficient for animation trees with large numbers of references
         this.schema.references.forEach((reference) => {
-            if (reference.reference === _cocoId) {
-                reference.reference = finalId
+            if (reference.nodeId === animateNode.id) {
+                reference.nodeId = animateNode.id
             }
         })
-
-        this.targetCache.parsed[finalId] = this.targetCache.parsed[_cocoId]
-        delete this.targetCache.parsed[_cocoId]
     }
 
     getReference (entityOrReference) {
@@ -131,9 +123,8 @@ export default class AnimateParser {
           rectangle.cocoSchema.rectangleConfig
         )
 
-        // TODO enable again
-        // const originalId = result.finalizeId()
-        // this.finalizeId(result)
+        const originalId = result.finalizeId()
+        this.updatedId(originalId, result)
 
         return result
     }
@@ -163,9 +154,8 @@ export default class AnimateParser {
           }
         )
 
-        // TODO enable again
-        // const originalId = result.finalizeId()
-        // this.finalizeId(result)
+        const originalId = result.finalizeId()
+        this.updatedId(originalId, result)
 
         this.schema.shapes.push(result)
         this.targetCache.parsed[result.id] = result
@@ -209,9 +199,8 @@ export default class AnimateParser {
           }
         )
 
-        // TODO enable again
-        // const originalId = result.finalizeId()
-        // this.finalizeId(result)
+        const originalId = result.finalizeId()
+        this.updatedId(originalId, result)
 
         this.schema.animations.push(result)
         this.targetCache.parsed[result.id] = result
@@ -252,9 +241,8 @@ export default class AnimateParser {
           }
         )
 
-        // TODO enable again
-        // const originalId = result.finalizeId()
-        // this.finalizeId(result)
+        const originalId = result.finalizeId()
+        this.updatedId(originalId, result)
 
         this.targetCache.parsed[result.id] = result
         return result
@@ -310,9 +298,8 @@ export default class AnimateParser {
         )
 
 
-        // TODO enable again
-        // const originalId = result.finalizeId()
-        // this.finalizeId(result)
+        const originalId = result.finalizeId()
+        this.updatedId(originalId, result)
 
         this.targetCache.parsed[result.id] = result
 

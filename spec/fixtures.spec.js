@@ -1,7 +1,5 @@
 import fs from 'fs'
 
-import isEqual from 'lodash.isequal'
-
 import { AdobeAnimation, translate } from '../src/index'
 
 const fixture_tests = [

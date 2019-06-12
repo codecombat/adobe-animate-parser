@@ -13,6 +13,10 @@ export default class AnimateNodeReference extends AnimateNode {
     return this.data.nodeId
   }
 
+  set nodeId (nodeId) {
+    this.data.nodeId = nodeId
+  }
+
   get node () {
     return this.targetCache.parsed[this.nodeId]
   }
