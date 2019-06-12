@@ -18,10 +18,7 @@ describe("fixture tests", () => {
       const translatedOutput = translate(parser.parsedEntryPoint)
       const expectedOutput = require(resultFile)
 
-      expect(
-        // This is required currently as translated output has undefined errors in it.
-        JSON.parse(JSON.stringify(translatedOutput)),
-      ).toEqual(expectedOutput)
+      expect(translatedOutput).toEqual(expectedOutput)
     })
   }
 })
