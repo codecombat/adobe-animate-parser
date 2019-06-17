@@ -5,7 +5,7 @@ export default class Shape extends CocoSchema {
     constructor() {
         super()
 
-        this.graphics = new Graphics()
+        this.graphics = new Graphics(this)
     }
 
     setTransform(x, y) {

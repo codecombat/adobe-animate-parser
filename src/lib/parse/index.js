@@ -75,7 +75,6 @@ export default class AnimateParser {
             return entityOrReference
         }
 
-        let originalNode = entityOrReference
         let referencedNodeId
         if (entityOrReference instanceof AnimateNode) {
             referencedNodeId = entityOrReference.id
@@ -146,13 +145,18 @@ export default class AnimateParser {
           'shape',
           shape,
           {
-              frameBounds,
-              bounds: nominalBounds,
-
               transform: shape.cocoSchema.transform,
               graphics: (shape.graphics || {}).cocoSchema
           }
         )
+
+        if (frameBounds) {
+            result.data.frameBounds = this.parseRectangle(frameBounds)
+        }
+
+        if (nominalBounds) {
+            result.data.bounds = this.parseRectangle(nominalBounds)
+        }
 
         const originalId = result.finalizeId()
         this.updatedId(originalId, result)

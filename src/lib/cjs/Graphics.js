@@ -1,13 +1,21 @@
 import CocoSchema from './CocoSchema'
 
-import { getCurveBounds } from '../../../util/shapes'
+import { getCurveBounds, getRectangleBounds } from '../../../util/shapes'
+import Rectangle from './Rectangle'
 
 export default class Graphics extends CocoSchema {
-    constructor () {
+    constructor (parent) {
         super()
 
         this.currentX = 0
         this.currentY = 0
+
+        this.minX = Infinity
+        this.minY = Infinity
+        this.maxX = -1 * Infinity
+        this.maxY = -1 * Infinity
+
+        this.parent = parent
     }
 
 
@@ -43,7 +51,7 @@ export default class Graphics extends CocoSchema {
         const base64 = Graphics.BASE_64;
         let x = 0, y = 0;
 
-        while (i<l) {
+        while (i < l) {
             const c = pathString.charAt(i);
             const n = base64[c];
             const fi = n >> 3; // highest order bits 1-3 code for operation.
@@ -111,32 +119,12 @@ export default class Graphics extends CocoSchema {
             // Save to coco schema (not currently supported)
         }
 
-        let minX, minY
-        let width, height
-
-        if (this.currentX < x) {
-            minX = this.currentX
-            width = x - this.currentX
-        } else {
-            minX = x
-            width = this.currentX - x
-        }
-
-        if (this.currentY < y) {
-            minY = this.currentY
-            height = y - this.currentY
-        } else {
-            minY = y
-            height = this.currentY - y
-        }
-
-        this.processBoundingBox({
-            x: minX,
-            y: minY,
-
-            width,
-            height
-        })
+        this.processBoundingBox(
+          getRectangleBounds(
+            this.currentX, this.currentY,
+            x, y
+          )
+        )
 
         this.currentX = x
         this.currentY = y
@@ -181,6 +169,26 @@ export default class Graphics extends CocoSchema {
     closePath () {
         // Save to coco schema (not currently supported)
         // Also may want to reset currentX and currentY to zero
+
+        if (this.parent) {
+            const {
+                minX,
+                minY,
+                maxX,
+                maxY
+            } = this
+
+            if (minX === Infinity || minY === Infinity || maxX === -1 * Infinity || maxY === -1 * Infinity) {
+                throw new Error('Unexpected bounds state')
+            }
+
+            this.parent.nominalBounds = new Rectangle(
+              minX,
+              minY,
+              maxX - minX,
+              maxY - minY
+            )
+        }
     }
 
     processBoundingBox(boundingBox) {
@@ -190,11 +198,11 @@ export default class Graphics extends CocoSchema {
         const maxX = boundingBox.x + boundingBox.width
         const maxY = boundingBox.y + boundingBox.height
 
-        this.cocoSchema.minX = Math.min(this.cocoSchema.minX, minX)
-        this.cocoSchema.minY = Math.min(this.cocoSchema.minY, minY)
+        this.minX = Math.min(this.minX, minX)
+        this.minY = Math.min(this.minY, minY)
 
-        this.cocoSchema.maxX = Math.max(this.cocoSchema.maxX, maxX)
-        this.cocoSchema.maxY = Math.max(this.cocoSchema.maxY, maxY)
+        this.maxX = Math.max(this.maxX, maxX)
+        this.maxY = Math.max(this.maxY, maxY)
     }
 }
 
