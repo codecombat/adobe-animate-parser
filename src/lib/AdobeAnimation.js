@@ -1,3 +1,4 @@
+import threads from 'threads'
 import sandboxFunction from '../util/sandboxedFunction'
 import createjs from './cjs'
 
