@@ -1,6 +1,6 @@
 import CocoSchema from './CocoSchema'
 
-import { getCurveBounds, getRectangleBounds } from '../../../util/shapes'
+import { getCurveBounds, getRectangleBounds } from '../../util/shapes'
 import Rectangle from './Rectangle'
 
 export default class Graphics extends CocoSchema {
