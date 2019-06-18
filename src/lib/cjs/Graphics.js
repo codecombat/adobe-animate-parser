@@ -105,6 +105,11 @@ export default class Graphics extends CocoSchema {
         return this
     }
 
+    ss (...ss) {
+        this.cocoSchema.ss = ss
+        return this
+    }
+
     moveTo (x, y) {
         if (!this.decodingPath) {
             // Save to coco schema (not currently supported)
