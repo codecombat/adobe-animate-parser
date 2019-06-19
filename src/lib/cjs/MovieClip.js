@@ -35,6 +35,10 @@ export default class MovieClip extends CocoSchema {
         return this
     }
 
+    set _off (bool) {
+        this.cocoSchema.off = bool
+    }
+
     // Lazily create timeline to make sure that each instance of a movie clip has
     // its own timeline.  Due to the way that animate chains prototypes setting this
     // in the constructor results in shared state across multiple instances of the

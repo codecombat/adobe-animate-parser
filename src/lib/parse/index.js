@@ -199,8 +199,10 @@ export default class AnimateParser {
               bounds: this.parseRectangle(nominalBounds),
               frameBounds: parsedFrameBounds,
 
-              tweens: parsedTweens
-          }
+              tweens: parsedTweens,
+
+              ...(movieClip.cocoSchema.off && { off: movieClip.cocoSchema.off })
+            }
         )
 
         const originalId = result.finalizeId()

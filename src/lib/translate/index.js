@@ -47,7 +47,8 @@ function dereferenceNativeObject (nativeObject, movieClipRefs = [], shapeRefs = 
                     bn: getBlockNameVar(resolvedValue.id, blockNameMappings),
                     gn: resolvedValue.id,
                     a: resolvedValue.data.constructorArgs,
-                    t: resolvedValue.data.transform
+                    t: resolvedValue.data.transform,
+                    ...(resolvedValue.data.off && {off: resolvedValue.data.off})
                 })
 
                 // Replace with the ID, it will be properly handled when rebuilt
@@ -122,7 +123,8 @@ export default function (schema) {
                         bn: getBlockNameVar(resolvedTarget.id, blockNameMappings),
                         gn: resolvedTarget.id,
                         a: resolvedTarget.data.constructorArgs,
-                        t: resolvedTarget.data.transform
+                        t: resolvedTarget.data.transform,
+                        ...(resolvedTarget.data.off && {off: resolvedTarget.data.off})
                     })
 
                     finalTween.push({
