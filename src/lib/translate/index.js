@@ -48,7 +48,7 @@ function dereferenceNativeObject (nativeObject, movieClipRefs = [], shapeRefs = 
                     gn: resolvedValue.id,
                     a: resolvedValue.data.constructorArgs,
                     t: resolvedValue.data.transform,
-                    ...(resolvedValue.data.off && {off: resolvedValue.data.off})
+                    off: resolvedValue.data.off === true
                 })
 
                 // Replace with the ID, it will be properly handled when rebuilt
@@ -124,7 +124,7 @@ export default function (schema) {
                         gn: resolvedTarget.id,
                         a: resolvedTarget.data.constructorArgs,
                         t: resolvedTarget.data.transform,
-                        ...(resolvedTarget.data.off && {off: resolvedTarget.data.off})
+                        off: resolvedTarget.data.off === true
                     })
 
                     finalTween.push({
