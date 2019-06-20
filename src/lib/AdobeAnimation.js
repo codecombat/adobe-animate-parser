@@ -165,7 +165,6 @@ export default class AdobeAnimation {
     // a self referencing tween that we do not support.
     // We assume this self referencing tween is always the first tween.
     this._parsedEntryPoint.data.tweens = this._parsedEntryPoint.data.tweens.filter((tween) => {
-      // TODO remove direct _cocoId reference here
       return this._parsedEntryPoint.id !== tween.node.id
     })
 
@@ -180,9 +179,6 @@ export default class AdobeAnimation {
       } = this.library.properties
 
       if (typeof width !== 'undefined' && typeof height !== 'undefined') {
-        const quarterWidth = width / 4
-        const quarterHeight = height / 4
-
         const {
           bounds: boundsNode,
           frameBounds: frameBoundsNodes
@@ -190,16 +186,30 @@ export default class AdobeAnimation {
 
         const resolvedBoundsNode = boundsNode.node
         if (resolvedBoundsNode.data.length > 0) {
-          resolvedBoundsNode.data[0] -= quarterWidth
-          resolvedBoundsNode.data[1] -= quarterHeight
-        }
+          const currentWidth = resolvedBoundsNode.data[0]
+          const currentHeight = resolvedBoundsNode.data[1]
 
-        if (frameBoundsNodes && frameBoundsNodes.length > 0) {
-          for (const frameBoundNode of frameBoundsNodes) {
-            const resolvedFrameBoundNode = frameBoundNode.node
+          const xTranslation = 0 - resolvedBoundsNode.data[2]
+          const yTranslation = 0 - resolvedBoundsNode.data[3]
 
-            resolvedFrameBoundNode.data[0] -= quarterWidth
-            resolvedFrameBoundNode.data[1] -= quarterHeight
+          const widthScaleFactor = currentWidth / width
+          const heightScaleFactor = currentHeight / height
+
+          resolvedBoundsNode.data = [
+            0, 0,
+            width, height
+          ]
+
+          if (frameBoundsNodes && frameBoundsNodes.length > 0) {
+            for (const frameBoundNode of frameBoundsNodes) {
+              const resolvedFrameBoundNode = frameBoundNode.node
+
+              resolvedFrameBoundNode.data[0] += xTranslation
+              resolvedFrameBoundNode.data[1] += yTranslation
+
+              resolvedBoundsNode.data[2] *= widthScaleFactor
+              resolvedBoundsNode.data[3] *= heightScaleFactor
+            }
           }
         }
       }

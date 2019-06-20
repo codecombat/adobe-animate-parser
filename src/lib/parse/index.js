@@ -1,5 +1,4 @@
 import clone from 'lodash.clone'
-import objectHash from 'object-hash'
 
 import MovieClip from '../cjs/MovieClip';
 import Shadow from '../cjs/Shadow';
