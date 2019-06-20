@@ -1,4 +1,7 @@
 // x, y are upper left corner
+// Taken from https://stackoverflow.com/a/13378980/827207
+// A is start point D is end point
+// Points b and c are control points 1 and 2
 export function getCurveBounds(ax, ay, bx, by, cx, cy, dx, dy)
 {
   var px, py, qx, qy, rx, ry, sx, sy, tx, ty,
