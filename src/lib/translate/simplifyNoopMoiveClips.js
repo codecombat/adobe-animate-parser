@@ -167,6 +167,15 @@ export function simplifyMovieClipPass (schema) {
               continue
             }
 
+            if (argsData.length > 1) {
+              // If there is more than one arg than the call to "to" contains a delay.  These can be chained
+              // to implement a fast switch between containers.  Consider this a motion tween for now.
+              //
+              // TODO may be worth parsing the top level animation differently - maybe never remove it?
+              isNoopClip = false
+              break
+            }
+
             const resolvedArgsData = argsData[0].node
 
             const args = resolvedArgsData.data.object
