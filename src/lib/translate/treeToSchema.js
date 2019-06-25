@@ -52,7 +52,7 @@ function dereferenceNativeObject (nativeObject, movieClipRefs = [], shapeRefs = 
             } else if (resolvedValue.type === 'container') {
                 const blockName = getBlockNameVar(resolvedValue.id, blockNameMappings)
 
-                shapeRefs.push({
+                containerRefs.push({
                     bn: blockName,
                     gn: resolvedValue.id
                 })
@@ -62,7 +62,7 @@ function dereferenceNativeObject (nativeObject, movieClipRefs = [], shapeRefs = 
             } else if (resolvedValue.type === 'shape') {
                 const blockName = getBlockNameVar(resolvedValue.id, blockNameMappings)
 
-                containerRefs.push({
+                shapeRefs.push({
                     bn: blockName,
                     gn: resolvedValue.id
                 })
@@ -130,7 +130,7 @@ export default function (schema) {
                     childEntry.t = resolvedChild.data.transform
                 }
             } else {
-                throw new Error('Containers only support shapes')
+                throw new Error('Containers only support shapes and child containers')
             }
 
             children.push(childEntry)
