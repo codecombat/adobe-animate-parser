@@ -38,11 +38,11 @@ function replaceMovieClipReferenceWithContainerInNativeObject (nativeObject, mov
 
           nativeObjectData[key] = nodeReference
         }
-      } else if (value.type === 'container') {
+      } else if (resolvedValue.type === 'container') {
         // noop
-      } else if (value.type === 'shape') {
+      } else if (resolvedValue.type === 'shape') {
         // noop
-      } else if (value.type === 'native_object') {
+      } else if (resolvedValue.type === 'native_object') {
         replaceMovieClipReferenceWithContainerInNativeObject(value, movieClip, container)
       } else {
         throw new Error('Invalid target type')

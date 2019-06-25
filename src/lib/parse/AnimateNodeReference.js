@@ -18,6 +18,11 @@ export default class AnimateNodeReference extends AnimateNode {
   }
 
   get node () {
-    return this.targetCache.parsed[this.nodeId]
+    let node = this.targetCache.parsed[this.nodeId]
+    while (node instanceof AnimateNodeReference) {
+      node = node.node
+    }
+
+    return node
   }
 }
