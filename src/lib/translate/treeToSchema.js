@@ -25,7 +25,7 @@ function translateBounds (boundsData) {
     return boundsData
 }
 
-function dereferenceNativeObject (nativeObject, movieClipRefs = [], shapeRefs = [], blockNameMappings) {
+function dereferenceNativeObject (nativeObject, movieClipRefs = [], shapeRefs = [], containerRefs = [], blockNameMappings) {
     const resolvedNativeObject = nativeObject.node
 
     const outputObject = (Array.isArray(resolvedNativeObject.data.object)) ? [] : {}
@@ -47,7 +47,7 @@ function dereferenceNativeObject (nativeObject, movieClipRefs = [], shapeRefs = 
 
                 // Replace with the ID, it will be properly handled when rebuilt
                 dereferencedValue = blockNameMappings[resolvedValue._cocoId] // TODO can we pull this out in a better way
-            } else if (resolvedValue.type === 'shape') {
+            } else if (resolvedValue.type === 'container') {
                 shapeRefs.push({
                     bn: getBlockNameVar(resolvedValue.id, blockNameMappings),
                     gn: resolvedValue.id
@@ -55,8 +55,16 @@ function dereferenceNativeObject (nativeObject, movieClipRefs = [], shapeRefs = 
 
                 // Replace with the ID, it will be properly handled when rebuilt
                 dereferencedValue = blockNameMappings[resolvedValue.id] // TODO can we pull this out in a better way
+            } else if (resolvedValue.type === 'shape') {
+                containerRefs.push({
+                    bn: getBlockNameVar(resolvedValue.id, blockNameMappings),
+                    gn: resolvedValue.id
+                })
+
+                // Replace with the ID, it will be properly handled when rebuilt
+                dereferencedValue = blockNameMappings[resolvedValue.id] // TODO can we pull this out in a better way
             } else if (value.type === 'native_object') {
-                dereferencedValue = dereferenceNativeObject(resolvedValue, movieClipRefs, shapeRefs, blockNameMappings)
+                dereferencedValue = dereferenceNativeObject(resolvedValue, movieClipRefs, shapeRefs, containerRefs, blockNameMappings)
             } else {
                 throw new Error('Invalid target type')
             }
@@ -95,10 +103,46 @@ export default function (schema) {
         finalShapes[resolvedShape.id] = translatedShape
     }
 
+    const finalContainers = {}
+    for (const container of schema.containers) {
+        const resolvedContainer = container.node
+
+        const shapes = []
+
+        for (const child of resolvedContainer.data.children) {
+            const resolvedChild = child.node
+            if (resolvedChild.type !== 'shape') {
+                throw new Error('Containers only support shapes')
+            }
+
+            const shape = {
+                gn: resolvedChild.id,
+            }
+
+            if (resolvedChild.data.transform) {
+                shape.t = resolvedChild.data.transform
+            }
+
+            shapes.push(shape)
+        }
+
+        const translatedContainer = {
+            c: shapes,
+        }
+
+        if (resolvedContainer.data.bounds) {
+            const resolvedBounds = resolvedContainer.data.bounds.node
+            translatedContainer.b = resolvedBounds.data
+        }
+
+        finalContainers[resolvedContainer.id] = translatedContainer
+    }
+
     const finalAnimations = {}
     for (const animation of schema.animations) {
         const resolvedAnimation = animation.node
 
+        const containers = []
         const shapes = []
         const animations = []
         const tweens = []
@@ -127,6 +171,18 @@ export default function (schema) {
 
                     break
 
+                case 'container':
+                    containers.push({
+                        bn: getBlockNameVar(resolvedTarget.id, blockNameMappings),
+                        gn: resolvedTarget.id
+                    })
+
+                    finalTween.push({
+                        n: 'get',
+                        a: [ blockNameMappings[resolvedTarget.id] ]
+                    })
+
+                    break
 
                 case 'shape':
                     shapes.push({
@@ -155,7 +211,7 @@ export default function (schema) {
             }
 
             const dereferencedTweenCalls = dereferenceNativeObject(
-              resolvedTween.data.tweenCalls, animations, shapes, blockNameMappings
+              resolvedTween.data.tweenCalls, animations, shapes, containers, blockNameMappings
             )
 
             for (const methodCall of dereferencedTweenCalls) {
@@ -191,7 +247,8 @@ export default function (schema) {
 
     const result = {
         shapes: finalShapes,
-        animations: finalAnimations
+        animations: finalAnimations,
+        containers: finalContainers
     }
 
     // TODO fix code to not insert undefineds
