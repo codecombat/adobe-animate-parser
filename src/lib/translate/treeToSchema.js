@@ -187,7 +187,8 @@ export default function (schema) {
                     containers.push({
                         bn: containerBlockName,
                         gn: resolvedTarget.id,
-                        t: resolvedTarget.data.transform
+                        t: resolvedTarget.data.transform,
+                        o: (resolvedTarget.data.off === true)
                     })
 
                     finalTween.push({

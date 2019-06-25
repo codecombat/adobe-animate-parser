@@ -26,6 +26,7 @@ function replaceMovieClipReferenceWithContainerInNativeObject (nativeObject, mov
       // If this is an object we have a complex type that we need to unwind
       if (resolvedValue.type === 'movie_clip') {
         if (resolvedValue.id === resolvedMovieClip.id) {
+          // TODO consolidate this with the code below
           const nodeReference = new AnimateNodeReference(
             'TEMP', // ID will be finalized on the next line,
             container.id,
@@ -231,7 +232,8 @@ export function simplifyMovieClipPass (schema) {
         children: containerShapes,
         bounds: resolvedAnimation.data.bounds,
         frameBounds: resolvedAnimation.data.frameBounds,
-        transform: resolvedAnimation.data.transform
+        transform: resolvedAnimation.data.transform,
+        off: resolvedAnimation.data.off
       }
     )
 
