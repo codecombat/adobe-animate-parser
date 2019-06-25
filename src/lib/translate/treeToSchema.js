@@ -38,31 +38,37 @@ function dereferenceNativeObject (nativeObject, movieClipRefs = [], shapeRefs = 
 
             // If this is an object we have a complex type that we need to unwind
             if (resolvedValue.type === 'movie_clip') {
+                const blockName = getBlockNameVar(resolvedValue.id, blockNameMappings)
+
                 movieClipRefs.push({
-                    bn: getBlockNameVar(resolvedValue.id, blockNameMappings),
+                    bn: blockName,
                     gn: resolvedValue.id,
                     a: resolvedValue.data.constructorArgs,
                     t: resolvedValue.data.transform
                 })
 
                 // Replace with the ID, it will be properly handled when rebuilt
-                dereferencedValue = blockNameMappings[resolvedValue._cocoId] // TODO can we pull this out in a better way
+                dereferencedValue = blockName
             } else if (resolvedValue.type === 'container') {
+                const blockName = getBlockNameVar(resolvedValue.id, blockNameMappings)
+
                 shapeRefs.push({
-                    bn: getBlockNameVar(resolvedValue.id, blockNameMappings),
+                    bn: blockName,
                     gn: resolvedValue.id
                 })
 
                 // Replace with the ID, it will be properly handled when rebuilt
-                dereferencedValue = blockNameMappings[resolvedValue.id] // TODO can we pull this out in a better way
+                dereferencedValue = blockName
             } else if (resolvedValue.type === 'shape') {
+                const blockName = getBlockNameVar(resolvedValue.id, blockNameMappings)
+
                 containerRefs.push({
-                    bn: getBlockNameVar(resolvedValue.id, blockNameMappings),
+                    bn: blockName,
                     gn: resolvedValue.id
                 })
 
                 // Replace with the ID, it will be properly handled when rebuilt
-                dereferencedValue = blockNameMappings[resolvedValue.id] // TODO can we pull this out in a better way
+                dereferencedValue = blockName
             } else if (value.type === 'native_object') {
                 dereferencedValue = dereferenceNativeObject(resolvedValue, movieClipRefs, shapeRefs, containerRefs, blockNameMappings)
             } else {
@@ -107,27 +113,31 @@ export default function (schema) {
     for (const container of schema.containers) {
         const resolvedContainer = container.node
 
-        const shapes = []
+        const children = []
 
         for (const child of resolvedContainer.data.children) {
             const resolvedChild = child.node
-            if (resolvedChild.type !== 'shape') {
+
+            let childEntry
+            if (resolvedChild.type === 'shape') {
+                childEntry = resolvedChild.id
+            } else if (resolvedChild.type === 'container') {
+                childEntry = {
+                    gn: resolvedChild.id,
+                }
+
+                if (resolvedChild.data.transform) {
+                    childEntry.t = resolvedChild.data.transform
+                }
+            } else {
                 throw new Error('Containers only support shapes')
             }
 
-            const shape = {
-                gn: resolvedChild.id,
-            }
-
-            if (resolvedChild.data.transform) {
-                shape.t = resolvedChild.data.transform
-            }
-
-            shapes.push(shape)
+            children.push(childEntry)
         }
 
         const translatedContainer = {
-            c: shapes,
+            c: children,
         }
 
         if (resolvedContainer.data.bounds) {
@@ -172,27 +182,32 @@ export default function (schema) {
                     break
 
                 case 'container':
+                    const containerBlockName = getBlockNameVar(resolvedTarget.id, blockNameMappings)
+
                     containers.push({
-                        bn: getBlockNameVar(resolvedTarget.id, blockNameMappings),
-                        gn: resolvedTarget.id
+                        bn: containerBlockName,
+                        gn: resolvedTarget.id,
+                        t: resolvedTarget.data.transform
                     })
 
                     finalTween.push({
                         n: 'get',
-                        a: [ blockNameMappings[resolvedTarget.id] ]
+                        a: [ containerBlockName ]
                     })
 
                     break
 
                 case 'shape':
+                    const shapeBlockName = getBlockNameVar(resolvedTarget.id, blockNameMappings)
+
                     shapes.push({
-                        bn: getBlockNameVar(resolvedTarget.id, blockNameMappings),
+                        bn: shapeBlockName,
                         gn: resolvedTarget.id
                     })
 
                     finalTween.push({
                         n: 'get',
-                        a: [ blockNameMappings[resolvedTarget.id] ]
+                        a: [ shapeBlockName ]
                     })
 
                     break
@@ -228,7 +243,7 @@ export default function (schema) {
             animations,
             shapes,
             tweens,
-            containers: [],
+            containers,
             graphics: [],
             bounds: resolvedAnimation.bounds,
             frameBounds: resolvedAnimation.frameBounds

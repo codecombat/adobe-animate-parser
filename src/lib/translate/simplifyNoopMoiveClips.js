@@ -13,6 +13,47 @@
 import AnimateNode from '../parse/AnimateNode'
 import AnimateNodeReference from '../parse/AnimateNodeReference'
 
+function replaceMovieClipReferenceWithContainerInNativeObject (nativeObject, movieClip, container) {
+  const resolvedMovieClip = movieClip.node
+  const resolvedNativeObject = nativeObject.node
+
+  const nativeObjectData = resolvedNativeObject.data.object
+
+  for (const [ key, value ] of Object.entries(nativeObjectData)) {
+    if (value instanceof AnimateNode) {
+      let resolvedValue = value.node
+
+      // If this is an object we have a complex type that we need to unwind
+      if (resolvedValue.type === 'movie_clip') {
+        if (resolvedValue.id === resolvedMovieClip.id) {
+          const nodeReference = new AnimateNodeReference(
+            'TEMP', // ID will be finalized on the next line,
+            container.id,
+            { parsed: { [container.id]: container } } // Simulate target cache
+          )
+
+          nodeReference.finalizeId()
+          // TODO fix schema.references.push(nodeReference)
+
+          nativeObjectData[key] = nodeReference
+        }
+      } else if (value.type === 'container') {
+        // noop
+      } else if (value.type === 'shape') {
+        // noop
+      } else if (value.type === 'native_object') {
+        replaceMovieClipReferenceWithContainerInNativeObject(value, movieClip, container)
+      } else {
+        throw new Error('Invalid target type')
+      }
+    } else if (Array.isArray(value)) {
+      for (const v of value) {
+        replaceMovieClipReferenceWithContainerInNativeObject(value, movieClip, container)
+      }
+    }
+  }
+}
+
 export function replaceMovieClipReferenceWithContainerReference (schema, movieClip, container) {
   const resolvedMovieClip = movieClip.node
 
@@ -37,18 +78,15 @@ export function replaceMovieClipReferenceWithContainerReference (schema, movieCl
           resolvedTween.data.target = nodeReference
         }
       } else if (resolvedTarget.type === 'native_object') {
-        // Parse through and swap reference.  Not yet supported but throwing error so we know
-        // if this case comes up and we need to add support.
-        continue
-        throw new Error('Native object not yet supported for replacement')
-      } else {
-        continue
+        replaceMovieClipReferenceWithContainerInNativeObject(resolvedTarget, movieClip, container)
       }
+
+      replaceMovieClipReferenceWithContainerInNativeObject(resolvedTween.data.tweenCalls, movieClip, container)
     }
   }
 }
 
-export default function simplyNoopMovieClips (schema) {
+export function simplifyMovieClipPass (schema) {
   schema.containers = schema.containers || []
 
   const keptAnimations = []
@@ -89,7 +127,7 @@ export default function simplyNoopMovieClips (schema) {
           isNoopClip = false
           break
         }
-      } else if (resolvedTarget.type === 'native_object') {
+      } else if (resolvedTarget.type === 'native_object' || resolvedTarget.type === 'container') {
         // Only supported if it does not contain references to non shape object within its system and
         // the tween calls do not perform movements.  For now we'll use a whitelisted approach to identifying.
         const tweenCalls = resolvedTween.data.tweenCalls
@@ -165,7 +203,7 @@ export default function simplyNoopMovieClips (schema) {
               const tNode = stateObjectData.t
               const resolvedTNode = tNode.node
 
-              if (resolvedTNode.type !== 'shape') {
+              if (resolvedTNode.type !== 'shape' && resolvedTNode.type !== 'container') {
                 isNoopClip = false
                 break
               }
@@ -210,5 +248,20 @@ export default function simplyNoopMovieClips (schema) {
 
   // Note this method modifies the input schema and then returns it
   // TODO it should return a copy
+  return schema
+}
+
+export default function simplyNoopMovieClips (schema) {
+  let lastNumAnimations
+  let numAnimations = schema.animations.length
+
+  while (numAnimations !== lastNumAnimations) {
+    lastNumAnimations = numAnimations
+
+    schema = simplifyMovieClipPass(schema)
+
+    numAnimations = schema.animations.length
+  }
+
   return schema
 }
