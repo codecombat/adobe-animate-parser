@@ -11,11 +11,49 @@
  * of child.
  */
 import AnimateNode from '../parse/AnimateNode'
+import AnimateNodeReference from '../parse/AnimateNodeReference'
+
+export function replaceMovieClipReferenceWithContainerReference (schema, movieClip, container) {
+  const resolvedMovieClip = movieClip.node
+
+  for (const animation of schema.animations) {
+    const resolvedAnimation = animation.node
+
+    for (const tween of resolvedAnimation.data.tweens) {
+      const resolvedTween = tween.node
+      const resolvedTarget = resolvedTween.data.target.node
+
+      if (resolvedTarget.type === 'movie_clip') {
+        if (resolvedTarget.id === resolvedMovieClip.id) {
+          const nodeReference = new AnimateNodeReference(
+            'TEMP', // ID will be finalized on the next line,
+            container.id,
+            { parsed: { [container.id]: container } } // Simulate target cache
+          )
+
+          nodeReference.finalizeId()
+          schema.references.push(nodeReference)
+
+          resolvedTween.data.target = nodeReference
+        }
+      } else if (resolvedTarget.type === 'native_object') {
+        // Parse through and swap reference.  Not yet supported but throwing error so we know
+        // if this case comes up and we need to add support.
+        continue
+        throw new Error('Native object not yet supported for replacement')
+      } else {
+        continue
+      }
+    }
+  }
+}
 
 export default function simplyNoopMovieClips (schema) {
   schema.containers = schema.containers || []
 
   const keptAnimations = []
+  const replacedMovieClipMappings = new Map()
+
   for (const animation of schema.animations) {
     const resolvedAnimation = animation.node
 
@@ -161,11 +199,14 @@ export default function simplyNoopMovieClips (schema) {
 
     containerNode.finalizeId()
     schema.containers.push(containerNode)
-
-    // TODO replace references to animations
+    replacedMovieClipMappings.set(animation, containerNode)
   }
 
   schema.animations = keptAnimations
+
+  for (const [ movieClip, container ] of replacedMovieClipMappings) {
+    replaceMovieClipReferenceWithContainerReference (schema, movieClip, container)
+  }
 
   // Note this method modifies the input schema and then returns it
   // TODO it should return a copy
