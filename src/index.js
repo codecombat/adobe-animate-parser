@@ -1,2 +1,3 @@
 export AdobeAnimation from './lib/AdobeAnimation'
-export translate from './lib/translate'
+export translateTreeToSchema from './lib/translate/treeToSchema'
+export simplifyNoopMovieClips from './lib/translate/simplifyNoopMoiveClips'
