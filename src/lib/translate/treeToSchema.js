@@ -11,6 +11,17 @@ function getBlockNameVar (targetId, blockNameMappings) {
     return blockName
 }
 
+function generateContainerBlockReference (container) {
+    const blockName = getBlockNameVar(container.id)
+
+    return {
+        bn: blockName,
+        gn: container.id,
+        t: container.data.transform,
+        o: (container.data.off === true)
+    }
+}
+
 function translateBounds (boundsData) {
     if (Array.isArray(boundsData)) {
         return boundsData.map((bounds) => translateBounds(bounds))
@@ -50,17 +61,11 @@ function dereferenceNativeObject (nativeObject, movieClipRefs = [], shapeRefs = 
                 // Replace with the ID, it will be properly handled when rebuilt
                 dereferencedValue = blockName
             } else if (resolvedValue.type === 'container') {
-                const blockName = getBlockNameVar(resolvedValue.id, blockNameMappings)
-
-                containerRefs.push({
-                    bn: blockName,
-                    gn: resolvedValue.id,
-                    t: resolvedValue.data.transform,
-                    o: (resolvedValue.data.off === true)
-                })
+                const containerRef = generateContainerBlockReference(resolvedValue)
+                containerRefs.push(containerRef)
 
                 // Replace with the ID, it will be properly handled when rebuilt
-                dereferencedValue = blockName
+                dereferencedValue = containerRef.bn
             } else if (resolvedValue.type === 'shape') {
                 const blockName = getBlockNameVar(resolvedValue.id, blockNameMappings)
 
@@ -184,18 +189,12 @@ export default function (schema) {
                     break
 
                 case 'container':
-                    const containerBlockName = getBlockNameVar(resolvedTarget.id, blockNameMappings)
-
-                    containers.push({
-                        bn: containerBlockName,
-                        gn: resolvedTarget.id,
-                        t: resolvedTarget.data.transform,
-                        o: (resolvedTarget.data.off === true)
-                    })
+                    const containerRef = generateContainerBlockReference(resolvedTarget)
+                    containers.push(containerRef)
 
                     finalTween.push({
                         n: 'get',
-                        a: [ containerBlockName ]
+                        a: [ containerRef.bn ]
                     })
 
                     break
