@@ -34,12 +34,18 @@ export default class AdobeAnimation {
     return this.movieClips[this.entryPointName]
   }
 
+  // TODO needs a better name
   get parsedEntryPoint () {
     if (!this.treeParsed) {
       throw new Error('Entry point not parsed')
     }
 
-    return this.animateParser.schema
+    return {
+      ...this.animateParser.schema,
+
+      entryPointName: this.entryPointName,
+      properties: this.libraryProperties
+    }
   }
 
   import () {
@@ -168,53 +174,7 @@ export default class AdobeAnimation {
       return this._parsedEntryPoint.id !== tween.node.id
     })
 
-    // Translate bounding boxes of top level animation.
-    //
-    // The game engine requires that the bounds are centered around the
-    // center of the top level movie clip.
-    if (this.library.properties) {
-      const {
-        width,
-        height
-      } = this.library.properties
-
-      if (typeof width !== 'undefined' && typeof height !== 'undefined') {
-        const {
-          bounds: boundsNode,
-          frameBounds: frameBoundsNodes
-        } = this._parsedEntryPoint.data
-
-        const resolvedBoundsNode = boundsNode.node
-        if (resolvedBoundsNode.data.length > 0) {
-          const currentWidth = resolvedBoundsNode.data[0]
-          const currentHeight = resolvedBoundsNode.data[1]
-
-          const xTranslation = 0 - resolvedBoundsNode.data[2]
-          const yTranslation = 0 - resolvedBoundsNode.data[3]
-
-          const widthScaleFactor = currentWidth / width
-          const heightScaleFactor = currentHeight / height
-
-          resolvedBoundsNode.data = [
-            0, 0,
-            width, height
-          ]
-
-          if (frameBoundsNodes && frameBoundsNodes.length > 0) {
-            for (const frameBoundNode of frameBoundsNodes) {
-              const resolvedFrameBoundNode = frameBoundNode.node
-
-              resolvedFrameBoundNode.data[0] += xTranslation
-              resolvedFrameBoundNode.data[1] += yTranslation
-
-              resolvedBoundsNode.data[2] *= widthScaleFactor
-              resolvedBoundsNode.data[3] *= heightScaleFactor
-            }
-          }
-        }
-      }
-    }
-
+    this.libraryProperties = this.library.properties || {}
     this._parsedEntryPoint.id = this.entryPointName
 
     this.treeParsed = true

@@ -2,7 +2,7 @@ import fs from 'fs'
 import isEqual from 'lodash.isequal'
 
 import { AdobeAnimation } from '../src/index'
-import { treeToSchema, simplifyNoopMovieClips } from '../src/lib/translate'
+import { translateToCoco } from '../src/lib/translate'
 
 const fixture_tests = [
   // [ 'spec/fixtures/robo_ball_input.js', './fixtures/robo_ball_output.json' ],
@@ -19,8 +19,7 @@ describe("fixture tests", () => {
 
       parser.parse()
 
-      const simplifiedSchema = simplifyNoopMovieClips(parser.parsedEntryPoint)
-      const translatedOutput = treeToSchema(simplifiedSchema)
+      const translatedOutput = translateToCoco(parser.parsedEntryPoint)
 
       const expectedOutput = require(resultFile)
 
