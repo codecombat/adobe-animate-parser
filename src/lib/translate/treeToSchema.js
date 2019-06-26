@@ -2,13 +2,30 @@ import AnimateNode from '../parse/AnimateNode'
 
 let blockNameCounter = {}
 
-function getBlockNameVar (targetId, blockNameMappings) {
+function getBlockNameVar (targetId) {
     blockNameCounter[targetId] = blockNameCounter[targetId] || 0
 
-    const blockName = `bn_${targetId}_${blockNameCounter[targetId]++}`
-    blockNameMappings[targetId] = blockName
+    return `bn_${targetId}_${blockNameCounter[targetId]++}`
+}
 
-    return blockName
+function generateMovieClipBlockReference (movieClip) {
+    const blockName = getBlockNameVar(movieClip.id)
+
+    return {
+        bn: blockName,
+        gn: movieClip.id,
+        a: movieClip.data.constructorArgs,
+        t: movieClip.data.transform
+    }
+}
+
+function generateShapeBlockReference (shape) {
+    const blockName = getBlockNameVar(shape.id)
+
+    return {
+        bn: blockName,
+        gn: shape.id
+    }
 }
 
 function generateContainerBlockReference (container) {
@@ -36,7 +53,7 @@ function translateBounds (boundsData) {
     return boundsData
 }
 
-function dereferenceNativeObject (nativeObject, movieClipRefs = [], shapeRefs = [], containerRefs = [], blockNameMappings) {
+function dereferenceNativeObject (nativeObject, movieClipRefs = [], shapeRefs = [], containerRefs = []) {
     const resolvedNativeObject = nativeObject.node
 
     const outputObject = (Array.isArray(resolvedNativeObject.data.object)) ? [] : {}
@@ -49,17 +66,11 @@ function dereferenceNativeObject (nativeObject, movieClipRefs = [], shapeRefs = 
 
             // If this is an object we have a complex type that we need to unwind
             if (resolvedValue.type === 'movie_clip') {
-                const blockName = getBlockNameVar(resolvedValue.id, blockNameMappings)
-
-                movieClipRefs.push({
-                    bn: blockName,
-                    gn: resolvedValue.id,
-                    a: resolvedValue.data.constructorArgs,
-                    t: resolvedValue.data.transform
-                })
+                const movieClipRef = generateMovieClipBlockReference(movieClipRefs)
+                movieClipRefs.push(movieClipRef)
 
                 // Replace with the ID, it will be properly handled when rebuilt
-                dereferencedValue = blockName
+                dereferencedValue = movieClipRef.bn
             } else if (resolvedValue.type === 'container') {
                 const containerRef = generateContainerBlockReference(resolvedValue)
                 containerRefs.push(containerRef)
@@ -67,17 +78,13 @@ function dereferenceNativeObject (nativeObject, movieClipRefs = [], shapeRefs = 
                 // Replace with the ID, it will be properly handled when rebuilt
                 dereferencedValue = containerRef.bn
             } else if (resolvedValue.type === 'shape') {
-                const blockName = getBlockNameVar(resolvedValue.id, blockNameMappings)
-
-                shapeRefs.push({
-                    bn: blockName,
-                    gn: resolvedValue.id
-                })
+                const shapeRef = generateShapeBlockReference(resolvedValue)
+                shapeRefs.push(shapeRef)
 
                 // Replace with the ID, it will be properly handled when rebuilt
-                dereferencedValue = blockName
+                dereferencedValue = shapeRef.bn
             } else if (value.type === 'native_object') {
-                dereferencedValue = dereferenceNativeObject(resolvedValue, movieClipRefs, shapeRefs, containerRefs, blockNameMappings)
+                dereferencedValue = dereferenceNativeObject(resolvedValue, movieClipRefs, shapeRefs, containerRefs)
             } else {
                 throw new Error('Invalid target type')
             }
@@ -164,8 +171,6 @@ export default function (schema) {
         const animations = []
         const tweens = []
 
-        const blockNameMappings = {}
-
         for (const tween of resolvedAnimation.data.tweens) {
             const finalTween = []
 
@@ -174,16 +179,12 @@ export default function (schema) {
 
             switch (resolvedTarget.type) {
                 case 'movie_clip':
-                    animations.push({
-                        bn: getBlockNameVar(resolvedTarget.id, blockNameMappings),
-                        gn: resolvedTarget.id,
-                        a: resolvedTarget.data.constructorArgs,
-                        t: resolvedTarget.data.transform
-                    })
+                    const movieClipRef = generateMovieClipBlockReference(resolvedTarget)
+                    animations.push(movieClipRef)
 
                     finalTween.push({
                         n: 'get',
-                        a: [ blockNameMappings[resolvedTarget.id] ]
+                        a: [ movieClipRef.bn ]
                     })
 
                     break
@@ -200,16 +201,13 @@ export default function (schema) {
                     break
 
                 case 'shape':
-                    const shapeBlockName = getBlockNameVar(resolvedTarget.id, blockNameMappings)
+                    const shapeRef = generateShapeBlockReference(resolvedTarget)
 
-                    shapes.push({
-                        bn: shapeBlockName,
-                        gn: resolvedTarget.id
-                    })
+                    shapes.push(shapeRef)
 
                     finalTween.push({
                         n: 'get',
-                        a: [ shapeBlockName ]
+                        a: [ shapeRef.bn ]
                     })
 
                     break
@@ -228,7 +226,7 @@ export default function (schema) {
             }
 
             const dereferencedTweenCalls = dereferenceNativeObject(
-              resolvedTween.data.tweenCalls, animations, shapes, containers, blockNameMappings
+              resolvedTween.data.tweenCalls, animations, shapes, containers
             )
 
             for (const methodCall of dereferencedTweenCalls) {
