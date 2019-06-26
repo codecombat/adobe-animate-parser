@@ -54,7 +54,9 @@ function dereferenceNativeObject (nativeObject, movieClipRefs = [], shapeRefs = 
 
                 containerRefs.push({
                     bn: blockName,
-                    gn: resolvedValue.id
+                    gn: resolvedValue.id,
+                    t: resolvedValue.data.transform,
+                    o: (resolvedValue.data.off === true)
                 })
 
                 // Replace with the ID, it will be properly handled when rebuilt
