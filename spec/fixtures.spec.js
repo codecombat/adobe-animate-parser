@@ -1,13 +1,17 @@
 import fs from 'fs'
 import isEqual from 'lodash.isequal'
 
-import { AdobeAnimation, translate } from '../src/index'
+import { AdobeAnimation } from '../src/index'
+import { translateToCoco } from '../src/lib/translate'
 
 const fixture_tests = [
-  [ 'spec/fixtures/robo_ball_input.js', './fixtures/robo_ball_output.json' ],
   [ 'spec/fixtures/hero_a_input.js', './fixtures/hero_a_output.json' ],
-  [ 'spec/fixtures/pole_input.js', './fixtures/pole_output.json' ],
+  [ 'spec/fixtures/hero_b_use_left_input.js', './fixtures/hero_b_use_left_output.json' ],
+  [ 'spec/fixtures/hero_b_use_right_input.js', './fixtures/hero_b_use_right_output.json' ],
+  [ 'spec/fixtures/hero_b_use_up_input.js', './fixtures/hero_b_use_up_output.json' ],
   [ 'spec/fixtures/ninja_walk_input.js', './fixtures/ninja_walk_output.json' ],
+  [ 'spec/fixtures/pole_input.js', './fixtures/pole_output.json' ],
+  [ 'spec/fixtures/robo_ball_input.js', './fixtures/robo_ball_output.json' ],
 ]
 
 describe("fixture tests", () => {
@@ -17,7 +21,9 @@ describe("fixture tests", () => {
       const parser = new AdobeAnimation(importedFile.toString())
 
       parser.parse()
-      const translatedOutput = translate(parser.parsedEntryPoint)
+
+      const translatedOutput = translateToCoco(parser.parsedEntryPoint)
+
       const expectedOutput = require(resultFile)
 
       // Use lodash equality instead of build in jasmine deep equal so that jasmine

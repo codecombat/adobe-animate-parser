@@ -27,12 +27,7 @@ function extend (subclass, superclass) {
     constructor: ExtendedClass
   })
 
-  const extendedClassInstance = new ExtendedClass()
-  if (extendedClassInstance instanceof CocoSchema) {
-    extendedClassInstance.deleteCocoSchema()
-  }
-
-  return extendedClassInstance
+  return new ExtendedClass()
 }
 
 export default {
