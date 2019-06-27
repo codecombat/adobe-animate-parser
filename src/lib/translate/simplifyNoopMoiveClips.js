@@ -98,7 +98,18 @@ export function simplifyMovieClipPass (schema) {
 
     const containerShapes = []
     let isNoopClip = true
-    for (const tween of resolvedAnimation.data.tweens) {
+    const tweens = resolvedAnimation.data.tweens
+
+    // In order to preserve layering we need to loop through the tweens in reverse order.
+    //
+    // Note that this only works for the very specific format that we support right now (tweens
+    // created on empty objects that use `.to({ state: [] })` calls with no delay.  This results in
+    // the last tween added to the timeline being executed first, resulting in those layers being
+    // added to the bottom of the stack.  If we support more complex additions with timing at
+    // a later point we'll need a more robust solution.
+    for (let i = tweens.length - 1; i >= 0; i--) {
+      const tween = tweens[i]
+
       const resolvedTween = tween.node
       const resolvedTarget = resolvedTween.data.target.node
 
@@ -234,7 +245,7 @@ export function simplifyMovieClipPass (schema) {
 
     // Adobe animate adds shapes starting with the bottom layer but we need to add them
     // in forward order for containers
-    containerShapes.reverse()
+    // containerShapes.reverse()
 
     // Create the container node and save it to the schema
     const containerNode = new AnimateNode(
