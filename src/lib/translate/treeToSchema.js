@@ -106,10 +106,7 @@ export default function (schema) {
         }
 
         if (resolvedShape.data.transform) {
-            translatedShape.t = [
-                resolvedShape.data.transform.x,
-                resolvedShape.data.transform.y
-            ]
+            translatedShape.t = resolvedShape.data.transform
         }
 
         if (resolvedShape.data.bounds) {

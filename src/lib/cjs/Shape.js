@@ -8,10 +8,8 @@ export default class Shape extends CocoSchema {
         this.graphics = new Graphics(this)
     }
 
-    setTransform(x, y) {
-        this.cocoSchema.transform = {
-            x, y
-        }
+    setTransform(...args) {
+        this.cocoSchema.transform = args
 
         return this
     }

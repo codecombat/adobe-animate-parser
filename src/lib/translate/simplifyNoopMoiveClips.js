@@ -232,6 +232,10 @@ export function simplifyMovieClipPass (schema) {
       continue
     }
 
+    // Adobe animate adds shapes starting with the bottom layer but we need to add them
+    // in forward order for containers
+    containerShapes.reverse()
+
     // Create the container node and save it to the schema
     const containerNode = new AnimateNode(
       'TEMP', // Will be finalized on next line
