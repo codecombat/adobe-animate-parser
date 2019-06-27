@@ -13,7 +13,7 @@
 import AnimateNode from '../parse/AnimateNode'
 import AnimateNodeReference from '../parse/AnimateNodeReference'
 
-function replaceMovieClipReferenceWithContainerInNativeObject (nativeObject, movieClip, container) {
+function replaceMovieClipReferenceWithContainerInNativeObject (schema, nativeObject, movieClip, container) {
   const resolvedMovieClip = movieClip.node
   const resolvedNativeObject = nativeObject.node
 
@@ -34,7 +34,7 @@ function replaceMovieClipReferenceWithContainerInNativeObject (nativeObject, mov
           )
 
           nodeReference.finalizeId()
-          // TODO fix schema.references.push(nodeReference)
+          schema.references.push(nodeReference)
 
           nativeObjectData[key] = nodeReference
         }
@@ -43,13 +43,13 @@ function replaceMovieClipReferenceWithContainerInNativeObject (nativeObject, mov
       } else if (resolvedValue.type === 'shape') {
         // noop
       } else if (resolvedValue.type === 'native_object') {
-        replaceMovieClipReferenceWithContainerInNativeObject(value, movieClip, container)
+        replaceMovieClipReferenceWithContainerInNativeObject(schema, value, movieClip, container)
       } else {
         throw new Error('Invalid target type')
       }
     } else if (Array.isArray(value)) {
       for (const v of value) {
-        replaceMovieClipReferenceWithContainerInNativeObject(value, movieClip, container)
+        replaceMovieClipReferenceWithContainerInNativeObject(schema, value, movieClip, container)
       }
     }
   }
@@ -79,10 +79,10 @@ export function replaceMovieClipReferenceWithContainerReference (schema, movieCl
           resolvedTween.data.target = nodeReference
         }
       } else if (resolvedTarget.type === 'native_object') {
-        replaceMovieClipReferenceWithContainerInNativeObject(resolvedTarget, movieClip, container)
+        replaceMovieClipReferenceWithContainerInNativeObject(schema, resolvedTarget, movieClip, container)
       }
 
-      replaceMovieClipReferenceWithContainerInNativeObject(resolvedTween.data.tweenCalls, movieClip, container)
+      replaceMovieClipReferenceWithContainerInNativeObject(schema, resolvedTween.data.tweenCalls, movieClip, container)
     }
   }
 }
