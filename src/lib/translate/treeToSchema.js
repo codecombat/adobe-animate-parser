@@ -133,7 +133,6 @@ export default function (schema) {
             if (resolvedChild.type === 'shape') {
                 childEntry = resolvedChild.id
             } else if (resolvedChild.type === 'container') {
-                console.log('verified that were getting one', resolvedChild)
                 childEntry = {
                     gn: resolvedChild.id,
                 }

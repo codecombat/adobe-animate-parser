@@ -4,15 +4,35 @@ import AnimateNodeReference from '../parse/AnimateNodeReference'
 function createContainerFromShape (shape) {
   const resolvedShape = shape.node
 
+  const { bounds } = resolvedShape.data.bounds
+
+  if (bounds) {
+    const newBounds = new AnimateNode(
+      'TEMP',
+      'rectangle',
+      undefined,
+      [
+        0,
+        0,
+        resolvedShape.data.bounds[2],
+        resolvedShape.data.bounds[3]
+      ]
+    )
+
+    newBounds.finalizeId()
+    resolvedShape.data.bounds = newBounds
+  }
+
+  // resolvedShape.data.transform = undefined
+
   const containerNode = new AnimateNode(
     'TEMP', // Will be finalized on next line
     'container',
     undefined,
     {
       children: [ resolvedShape ],
-      bounds: resolvedShape.data.bounds,
+      bounds,
       frameBounds: resolvedShape.data.frameBounds,
-      transform: resolvedShape.data.transform
     }
   )
 
