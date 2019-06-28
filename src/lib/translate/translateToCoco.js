@@ -1,10 +1,12 @@
 import alignBoundsToCoco from './alignBoundsToCoco'
 import simplifyNoopMovieClips from './simplifyNoopMoiveClips'
 import treeToSchema from './treeToSchema'
+import convertAnimationShapesToContainers from './convertAnimationShapesToContainers'
 
 export default function translateToCoco (schema) {
   const simplifiedClipsSchema = simplifyNoopMovieClips(schema)
-  const alignedBounds = alignBoundsToCoco(simplifiedClipsSchema)
+  const shapesToContainerSchema = convertAnimationShapesToContainers(simplifiedClipsSchema)
+  const alignedBounds = alignBoundsToCoco(shapesToContainerSchema)
 
   return treeToSchema(alignedBounds)
 }
