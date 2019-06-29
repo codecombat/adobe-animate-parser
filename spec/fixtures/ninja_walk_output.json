@@ -3359,12 +3359,7 @@
   "animations": {
     "NinjaWalkAnimate": {
       "animations": [],
-      "shapes": [
-        {
-          "bn": "bn_365f5469bcd13a8d04b4ba63a30d4a9bd26aa8fc_0",
-          "gn": "365f5469bcd13a8d04b4ba63a30d4a9bd26aa8fc"
-        }
-      ],
+      "shapes": [],
       "tweens": [
         [
           {
@@ -4341,7 +4336,7 @@
           {
             "n": "get",
             "a": [
-              "bn_365f5469bcd13a8d04b4ba63a30d4a9bd26aa8fc_0"
+              "bn_32d10128a792ba1515f6303a1924c51e98a6a430_0"
             ]
           },
           {
@@ -4591,6 +4586,11 @@
             47.8,
             27.3
           ],
+          "o": false
+        },
+        {
+          "bn": "bn_32d10128a792ba1515f6303a1924c51e98a6a430_0",
+          "gn": "32d10128a792ba1515f6303a1924c51e98a6a430",
           "o": false
         }
       ],
@@ -5020,6 +5020,11 @@
         8,
         67.5,
         38.5
+      ]
+    },
+    "32d10128a792ba1515f6303a1924c51e98a6a430": {
+      "c": [
+        "365f5469bcd13a8d04b4ba63a30d4a9bd26aa8fc"
       ]
     }
   }

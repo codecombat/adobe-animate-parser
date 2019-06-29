@@ -6,6 +6,7 @@ import { translateToCoco } from '../src/lib/translate'
 
 const fixture_tests = [
   [ 'spec/fixtures/hero_a_input.js', './fixtures/hero_a_output.json' ],
+  [ 'spec/fixtures/hero_a_use_down_input.js', './fixtures/hero_a_use_down_output.json' ],
   [ 'spec/fixtures/hero_b_use_left_input.js', './fixtures/hero_b_use_left_output.json' ],
   [ 'spec/fixtures/hero_b_use_right_input.js', './fixtures/hero_b_use_right_output.json' ],
   [ 'spec/fixtures/hero_b_use_up_input.js', './fixtures/hero_b_use_up_output.json' ],

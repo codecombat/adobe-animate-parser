@@ -140,6 +140,10 @@ export function simplifyMovieClipPass (schema) {
           break
         }
       } else if (resolvedTarget.type === 'native_object' || resolvedTarget.type === 'container') {
+        if (resolvedTarget.type === 'container') {
+          containerShapes.push(resolvedTarget)
+        }
+
         // Only supported if it does not contain references to non shape object within its system and
         // the tween calls do not perform movements.  For now we'll use a whitelisted approach to identifying.
         const tweenCalls = resolvedTween.data.tweenCalls
