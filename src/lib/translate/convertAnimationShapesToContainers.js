@@ -1,29 +1,18 @@
 import AnimateNode from '../parse/AnimateNode'
 import AnimateNodeReference from '../parse/AnimateNodeReference'
 
-function createContainerFromShape (shape) {
+/**
+ * Create a container including the shape using the specified bounds.
+ * The bounds currently need to be the bounds of the shape's parent.
+ *
+ * This ensures that any transforms are properly contained in the
+ * bounding box.  These bounds are critical for the generation of
+ * segmented sprites.
+ *
+ * TODO there is likely a way to minimize the bounding box with container transforms or shape transforms
+ */
+function createContainerFromShape (shape, bounds) {
   const resolvedShape = shape.node
-
-  const { bounds } = resolvedShape.data.bounds
-
-  if (bounds) {
-    const newBounds = new AnimateNode(
-      'TEMP',
-      'rectangle',
-      undefined,
-      [
-        0,
-        0,
-        resolvedShape.data.bounds[2],
-        resolvedShape.data.bounds[3]
-      ]
-    )
-
-    newBounds.finalizeId()
-    resolvedShape.data.bounds = newBounds
-  }
-
-  // resolvedShape.data.transform = undefined
 
   const containerNode = new AnimateNode(
     'TEMP', // Will be finalized on next line
@@ -41,19 +30,19 @@ function createContainerFromShape (shape) {
   return containerNode
 }
 
-function convertShapesToContainersInNativeObject (schema, nativeObject) {
+function convertShapesToContainersInNativeObject (schema, bounds, nativeObject) {
   const resolvedNativeObject = nativeObject.node
   const nativeObjectData = resolvedNativeObject.data.object
 
   for (const [ key, value ] of Object.entries(nativeObjectData)) {
     if (Array.isArray(value)) {
       for (const v of value) {
-        convertShapesToContainersInNativeObject(schema, v)
+        convertShapesToContainersInNativeObject(schema, bounds, v)
       }
     } else if (value instanceof AnimateNode) {
       let resolvedValue = value.node
       if (resolvedValue.type === 'shape') {
-        const container = createContainerFromShape(resolvedValue)
+        const container = createContainerFromShape(resolvedValue, bounds)
 
         schema.containers.push(container)
 
@@ -66,7 +55,7 @@ function convertShapesToContainersInNativeObject (schema, nativeObject) {
         schema.references.push(containerRef)
         nativeObjectData[key] = containerRef
       } else if (resolvedValue.type === 'native_object') {
-        convertShapesToContainersInNativeObject(schema, resolvedValue)
+        convertShapesToContainersInNativeObject(schema, bounds, resolvedValue)
       }
     }
   }
@@ -76,7 +65,10 @@ export default function convertAnimationShapesToContainers (schema) {
   for (const animation of schema.animations) {
     const resolvedAnimation = animation.node
 
-    const { tweens } = resolvedAnimation.data
+    const {
+      tweens,
+      bounds
+    } = resolvedAnimation.data
 
     // In order to preserve layering we need to loop through the tweens in reverse order.
     //
@@ -92,7 +84,7 @@ export default function convertAnimationShapesToContainers (schema) {
       const resolvedTarget = resolvedTween.data.target.node
 
       if (resolvedTarget.type === 'shape') {
-        const container = createContainerFromShape(resolvedTarget)
+        const container = createContainerFromShape(resolvedTarget, bounds)
 
         schema.containers.push(container)
 
@@ -105,10 +97,10 @@ export default function convertAnimationShapesToContainers (schema) {
         resolvedTween.data.target = containerRef
         schema.references.push(containerRef)
       } else if (resolvedTarget.type === 'native_object') {
-        convertShapesToContainersInNativeObject(schema, resolvedTarget)
+        convertShapesToContainersInNativeObject(schema, bounds, resolvedTarget)
       }
 
-      convertShapesToContainersInNativeObject(schema, resolvedTween.data.tweenCalls)
+      convertShapesToContainersInNativeObject(schema, bounds, resolvedTween.data.tweenCalls)
     }
   }
 
