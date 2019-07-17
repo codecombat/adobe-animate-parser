@@ -28,7 +28,7 @@ function replaceMovieClipReferenceWithContainerInNativeObject (schema, nativeObj
         if (resolvedValue.id === resolvedMovieClip.id) {
           // TODO consolidate this with the code below
           const nodeReference = new AnimateNodeReference(
-            'TEMP', // ID will be finalized on the next line,
+            resolvedValue.id, // ID will be finalized on the next line,
             container.id,
             { parsed: { [container.id]: container } } // Simulate target cache
           )
@@ -253,7 +253,7 @@ export function simplifyMovieClipPass (schema) {
 
     // Create the container node and save it to the schema
     const containerNode = new AnimateNode(
-      'TEMP', // Will be finalized on next line
+      resolvedAnimation.id,
       'container',
       undefined,
       {
@@ -265,7 +265,11 @@ export function simplifyMovieClipPass (schema) {
       }
     )
 
-    containerNode.finalizeId()
+    if (schema.entryPointName !== containerNode.id) {
+      // We don't want to hash the root if it's a container.
+      containerNode.finalizeId()
+    }
+
     schema.containers.push(containerNode)
     replacedMovieClipMappings.set(animation, containerNode)
   }

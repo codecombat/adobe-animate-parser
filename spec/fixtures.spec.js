@@ -13,6 +13,7 @@ const fixture_tests = [
   [ 'spec/fixtures/ninja_walk_input.js', './fixtures/ninja_walk_output.json' ],
   [ 'spec/fixtures/pole_input.js', './fixtures/pole_output.json' ],
   [ 'spec/fixtures/robo_ball_input.js', './fixtures/robo_ball_output.json' ],
+  [ 'spec/fixtures/acodus_container.js', './fixtures/acodus_container.json']
 ]
 
 describe("fixture tests", () => {
