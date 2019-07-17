@@ -12,9 +12,12 @@ export default function alignBoundsToCoco (schema) {
     height
   } = schema.properties
 
-  const entryPoint = schema
-    .animations
+  const entryPoint = [...schema.animations, ...schema.containers]
     .find(a => a.id === schema.entryPointName)
+
+  if (!entryPoint) {
+    throw new Error('No entryPoint found when aligning bounds')
+  }
 
   const {
     bounds: boundsNode
