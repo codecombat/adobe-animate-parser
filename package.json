@@ -1,11 +1,11 @@
 {
   "name": "adobe-animate-parser",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Parses CreateJS based Adobe Animate Files",
   "main": "index.js",
   "scripts": {
-    "prepare": "COCO_BUILD=true babel src -d ./",
-    "build": "mkdir -p dist && COCO_BUILD=true babel src -d dist && cp package.json ./dist",
+    "prepare": "cross-env COCO_BUILD=true babel src -d ./",
+    "build": "mkdir -p dist && cross-env COCO_BUILD=true babel src -d dist && cp package.json ./dist",
     "test": "jasmine"
   },
   "author": "",
@@ -17,13 +17,14 @@
     "object-hash": "^1.3.1"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-export-default-from": "^7.2.0",
-    "@babel/register": "^7.4.4",
     "@babel/cli": "^7.4.4",
     "@babel/core": "^7.4.5",
     "@babel/node": "^7.4.5",
+    "@babel/plugin-proposal-export-default-from": "^7.2.0",
     "@babel/plugin-proposal-object-rest-spread": "^7.4.4",
     "@babel/preset-env": "^7.4.5",
+    "@babel/register": "^7.4.4",
+    "cross-env": "^7.0.3",
     "jasmine": "^3.4.0"
   }
 }
