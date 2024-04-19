@@ -5,7 +5,7 @@ module.exports = {
 
     "plugins": [
         "@babel/plugin-proposal-export-default-from",
-        "@babel/plugin-proposal-object-rest-spread"
+        "@babel/plugin-transform-object-rest-spread"
     ],
 
     "sourceMaps": (process.env.COCO_BUILD) ? true : "inline",
