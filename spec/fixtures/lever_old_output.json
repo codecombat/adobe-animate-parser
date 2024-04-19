@@ -1,0 +1,646 @@
+{
+    "shapes": {
+      "cee58cd85139ce8c49796924a64b510e30143321": {
+        "fc": "#756C57",
+        "p": "ArFLtQlHhkj8i2Qj9i3iKjsQiPj0AAkMQAAjHBRi9IBtAAQgvCOAACSQgBD3CEDiQCADZDpCoQDpCoEtBcQE4BgFVAAQFWAAE4hgQEuhcDoioQDpioB/jZQCEjiAAj3QABiSgwiOIBuAAQBQC9AADHQAAEMiPD0QiKDsj9C3Qj8C2lIBkQlSBolzAAQlyAAlThog",
+        "t": [
+          -0.0217,
+          -0.0327,
+          0.2627,
+          0.2627
+        ],
+        "bounds": [
+          -182.20000000000005,
+          -85.19999999999999,
+          364.5,
+          170.5
+        ]
+      },
+      "b5384cef222a31ebef9735f27388d81f548ec39e": {
+        "fc": "#A1916A",
+        "p": "AqNKQQkthcjpioQjpioiAjaQiEjhABj3QAAiTAviNIDdAAQgFApAAAvQAADQBvC+QBsC4DECNQDECOD+BNQEHBREgAAQEgAAEIhRQD+hNDEiOQDEiNBri4QBwi+AAjQQAAgvgFgpIDdAAQAwCNgBCTQAAD3iEDhQh/DajpCoQjoCokuBcQk4BflWAAQlVAAk4hfg",
+        "t": [
+          -0.0217,
+          -2.6989,
+          0.2627,
+          0.2627
+        ],
+        "bounds": [
+          -167.9152859375,
+          -75.00000000000001,
+          335.93891874999997,
+          150.1
+        ]
+      },
+      "f56667516423399e9cf1add0671d891831793fee": {
+        "fc": "#B3A382",
+        "p": "AonHbQj+hNjEiOQjEiOhsi2Qhvi/AAjQQAAgvAFgpIGLAAIAAAGQAABiAmBZQAkBWBDBDQBBBBBXAlQBYAmBiAAIP4AAQDHgBCLiLQCNiNAAjHIAAgGIHGAAQAFApAAAvQAADQhwC/QhrC2jECOQjECOj+BNQkIBRkgAAQkgAAkHhRg",
+        "t": [
+          -0.0217,
+          -7.8277,
+          0.2627,
+          0.2627
+        ],
+        "bounds": [
+          -141.6,
+          -55.50000000000001,
+          283.29999999999995,
+          111.10000000000001
+        ]
+      },
+      "3ae67800036d150fa894185f0b00db2a7a194665": {
+        "fc": "#514A47",
+        "p": "AjVDWQhZhZAAh9QAAh9BZhYQBZhZB8AAQB+AABZBZQBYBYAAB9QAAB9hYBZQhZBZh+AAQh8AAhZhZg",
+        "t": [
+          -0.6624,
+          2.9488,
+          0.2626,
+          0.2626
+        ],
+        "bounds": [
+          -30.200000000000003,
+          -30.200000000000003,
+          60.5,
+          60.5
+        ]
+      },
+      "5f0ded2f96bf0bc6db4299669a352944e8ecf74a": {
+        "fc": "#7B7870",
+        "p": "AikClQhEhEAAhhQAAhgBEhEQBFhEBfAAQBgAABFBEQBFBEAABgQAABhhFBEQhEBEhhAAQhfAAhFhEg",
+        "t": [
+          -0.6559,
+          1.8983,
+          0.2626,
+          0.2626
+        ],
+        "bounds": [
+          -23.2,
+          -23.2,
+          46.599999999999994,
+          46.5
+        ]
+      },
+      "7d81a8af02a726a431afc40e229c6ad9a99fdd28": {
+        "fc": "#6B4727",
+        "p": "EgHsAvjMAAAhfFIPZAAMAAABfFg",
+        "t": [
+          -0.2073,
+          19.6774,
+          0.2625,
+          0.2625
+        ],
+        "bounds": [
+          -49.2,
+          -304.2,
+          98.5,
+          608.5
+        ]
+      },
+      "a281b8f5a9d301c153d9eb8ccaaf24ae0851ceb9": {
+        "fc": "#925D2E",
+        "p": "EgEsAqtMAAAhWOIJZAAMAAABWQQiUAziUAAQiXAAiag1g",
+        "t": [
+          -0.2073,
+          12.9239,
+          0.2625,
+          0.2625
+        ],
+        "bounds": [
+          -30.00000000000002,
+          -278.49999999999994,
+          60.10000000000002,
+          557.1
+        ]
+      },
+      "715bc020c53098f1a74ec86ea744bb886ce6a49a": {
+        "fc": "#50321A",
+        "p": "AmeVZQiRgqiQhKQA0lrAblKQA8rVg2qEQgak5g3ktQASA9BRAxQBMAsB8AdQCyAqDeAAQDhABCygrQB8gdBMguQBSgxAQhAQg1EvgaE8Qg1KHA6LSQAaFHAzFuQiOBHiUArQjSA+jQAAQjNAAjNg8g",
+        "t": [
+          -0.9054,
+          -15.8972,
+          0.2626,
+          0.2626
+        ],
+        "bounds": [
+          -70.30000000000001,
+          -142.79999999999998,
+          140.70000000000002,
+          285.70000000000005
+        ]
+      },
+      "3932ee73d1386e263a57e9fe004842ad0d283799": {
+        "fc": "#5D442F",
+        "p": "AlvDyQgLkKgXkQQCzAqDeABQDhAACxgqQgWEHgLENQjBA8i8AAQizAAiwg3g",
+        "t": [
+          -0.8922,
+          -40.7075,
+          0.2626,
+          0.2626
+        ],
+        "bounds": [
+          -40.1,
+          -29.600000000000033,
+          80.30000000000001,
+          59.30000000000003
+        ]
+      },
+      "92ec6e854f6ba43d75d8f1dca9407dc28a1b8c06": {
+        "fc": "#5D442F",
+        "p": "AmeFEQAdlrAPlWQFuBtF5hwQAOFgAbFiQjSA/jQAAQjNAAjNg9g",
+        "t": [
+          -0.9054,
+          11.5415,
+          0.2626,
+          0.2626
+        ],
+        "bounds": [
+          -41.400000000000034,
+          -38.40000000000003,
+          82.80000000000004,
+          76.90000000000002
+        ]
+      },
+      "b97dc51baf8dc80809211b6180fed6efeb3cb6fa": {
+        "fc": "#49301F",
+        "p": "AlfCXQiSg+AAhZQAAhYCSg+QCSg/DNAAQDOAACSA/QCSA+AABYQAABZiSA+QiSA/jOAAQjNAAiSg/g",
+        "t": [
+          -0.1437,
+          -61.0999,
+          0.2626,
+          0.2626
+        ],
+        "bounds": [
+          -49.7,
+          -21.300000000000004,
+          99.5,
+          42.7
+        ]
+      },
+      "bbe6723440d58a734ca93e67e6c5d65de372c6ca": {
+        "fc": "#6B4727",
+        "p": "AkEBfQhtgnAAg4QAAg3BtgnQBsgoCYAAQCZAABtAoQBsAnAAA3QAAA4hsAnQhtAoiZAAQiYAAhsgog",
+        "t": [
+          -0.1503,
+          -61.5201,
+          0.2626,
+          0.2626
+        ],
+        "bounds": [
+          -36.9,
+          -13.4,
+          73.9,
+          26.9
+        ]
+      },
+      "f4c0ec8f8f796fb7f7fa3efd852a87c08b0add01": {
+        "fc": "#52351D",
+        "p": "AksHfIAAu9QEuBnErhlIAAO7g",
+        "t": [
+          -0.1372,
+          79.2125,
+          0.2626,
+          0.2626
+        ],
+        "bounds": [
+          -30,
+          -47.800000000000004,
+          60.10000000000004,
+          95.7
+        ]
+      },
+      "29ff9b723a951e3c60be61655c1732df86b28c9c": {
+        "fc": "#492F1B",
+        "p": "AhfIJIAAwRQBfA0BgAhIAAO8g",
+        "t": [
+          -10.5637,
+          78.1029,
+          0.2626,
+          0.2626
+        ],
+        "bounds": [
+          -9.5,
+          -51.99999999999999,
+          19.10000000000001,
+          104.1
+        ]
+      },
+      "12b49564e07050ef376974221d3985b60c6a4645": {
+        "fc": "#492F1B",
+        "p": "AhfIJIAAu7QBgggBfg2IAAQRg",
+        "t": [
+          10.2894,
+          78.1029,
+          0.2626,
+          0.2626
+        ],
+        "bounds": [
+          -9.5,
+          -52,
+          19.10000000000001,
+          104.1
+        ]
+      },
+      "67cb1cc357326399a9d3dc2c8f435e7af6b62a39": {
+        "fc": "#423125",
+        "p": "AlzKTQAfrLgbqKQFoBwF4h1QgbKNAeLKQi/A4i8AAQi3AAi1g1g",
+        "t": [
+          -0.8922,
+          -15.7132,
+          0.2626,
+          0.2626
+        ],
+        "bounds": [
+          -37.10000000000003,
+          -71.1,
+          74.30000000000003,
+          142.3
+        ]
+      },
+      "50b4ab56db8c994c96474037c237a5fc18f455af": {
+        "fc": "#3C2413",
+        "p": "AiGJ6QA8rWg2qEQB+BFB8AnQAcKJggLMQiAgnh8hAg",
+        "t": [
+          -13.7703,
+          -17.8309,
+          0.2626,
+          0.2626
+        ],
+        "bounds": [
+          -13.400000000000016,
+          -73.60000000000008,
+          27.651881250000017,
+          147.30000000000018
+        ]
+      },
+      "cc17013310d7904046e5382fc55ce891f4bce3fa": {
+        "fc": "#3C2413",
+        "p": "Ah5p4QB5glCDhBQg2KHA6LSQiAA/h9AlQgerLAbqMg",
+        "t": [
+          12.0124,
+          -17.8703,
+          0.2626,
+          0.2626
+        ],
+        "bounds": [
+          -14.087785937500001,
+          -73.4,
+          27.587785937500012,
+          146.90000000000003
+        ]
+      },
+      "3fa6c4ea4134668ac216cd21264d57f4c78ec671": {
+        "fc": "#B3A382",
+        "p": "AoYCSQithPABhuQAAg1BAgyQBAgyBughIALgBIAACwIAZATQAjAWAwASQCVA8DTACQEYACCQhDQBIggAQgiIAEiMIACACQBWAgAwAoQAwAqABAtQAABtijBKQi8BWlhAFIglAAQk8AAi9hVg",
+        "t": [
+          -1.0104,
+          -53.0591,
+          0.2626,
+          0.2626
+        ],
+        "bounds": [
+          -70.81355625,
+          -23.000000000000004,
+          141.81355624999998,
+          46.099999999999994
+        ]
+      },
+      "fc496bb2c86d7a0c67372f1734864c2c2ce2380d": {
+        "fc": "#625F58",
+        "p": "AlKMOQiYhAh2h2Qh1h1hAiZQhEidAAitQABh9Ajh4QAkhzBChmQBziyC6hmQC/hrDbAAQD3AADPCEQDKCBBqDWQBXCwAADGQABCthDCdQhBCZh1B1Qh2B2iYBAQieBDitABQisgBiehDg",
+        "t": [
+          -0.0387,
+          -77.4029,
+          0.2626,
+          0.2626
+        ],
+        "bounds": [
+          -84.9,
+          -84.9,
+          169.8204,
+          169.9
+        ]
+      },
+      "9108712e7a74b2b297ab1f09333d6dd181f15619": {
+        "fc": "#4F4C46",
+        "p": "Ak4LKQiQg9hwhvQhvhwg9iQQhAiWAAiiQAAjABXisQA2hSBDhAIAAgBQB1hxCWg+QCbhACpAAQCsAACdBCQCYBAB1B2QBmBkA9B+QAxCEAACQQAACihACWQg9CQhvBwQhvBviRA9QiVA/ikAAQiiAAiWg/g",
+        "t": [
+          0.1123,
+          -79.3004,
+          0.2626,
+          0.2626
+        ],
+        "bounds": [
+          -80.39999999999999,
+          -77.6,
+          160.90000000000003,
+          155.29999999999998
+        ]
+      },
+      "66a5ef262b45d14ec7a0fb94d3eb0b10c58fa8a3": {
+        "fc": "#7B7870",
+        "p": "AkVJtQiAg3hjhiQjSjSAAkmQAAhuAghnQAfhkA7hXIABgBQB1hxCVg+QCbhACqAAQCrAACdBCQCYBBB2B1QA4BVAeBjQAfBlAABrQAACQg4CFQg3CAhjBjQhiBiiBA3QiEA4iSAAQiQAAiFg4g",
+        "t": [
+          -0.0058,
+          -81.9333,
+          0.2626,
+          0.2626
+        ],
+        "bounds": [
+          -71.4,
+          -67.60000000000002,
+          142.89999999999998,
+          135.3
+        ]
+      },
+      "96b3d8d79eb1aa4452ce4f50bfd0af37fe65128d": {
+        "fc": "#A9A59C",
+        "p": "AkTEUQhxhzAAihQAAihBxhxQBzhzCgABQChgBByBzQBzBxgBChQABChhzBzQhyBxihABQiggBhzhxg",
+        "t": [
+          -0.275,
+          -85.492,
+          0.2626,
+          0.2626
+        ],
+        "bounds": [
+          -38.8,
+          -38.816003125,
+          77.716003125,
+          77.81600312500001
+        ]
+      },
+      "9508c0b5f4dd1e93103aa03f1a00b86aa727b583": {
+        "fc": "#484238",
+        "p": "AsEUpQlkhtkSjGQkTjHiWkBQickKAAkkQAAkjCckKQCWkBETjHQESjGFkhtQFxhxGTAAQGTAAFxBxQFkBtETDGQETDHCWEBQCcEKAAEjQAAEkicEKQiWEBkTDHQkTDGlkBtQlwBxmUAAQmTAAlxhxg",
+        "t": [
+          -0.0152,
+          -0.0447,
+          0.2627,
+          0.2627
+        ],
+        "bounds": [
+          -198.3,
+          -143.3,
+          396.7,
+          286.70000000000005
+        ]
+      },
+      "9fd90244ef7bd3b630e74d518d5c66f111530edf": {
+        "fc": "#756C57",
+        "p": "ArFS+QlHhkj8i3Qj9i2iKjsQiPj1AAkMQAAkLCPj1QCKjsD9i2QD8i3FHhkQFThnFyAAQFzAAFSBnQFIBkD8C3QD9C2CKDsQCPD1AAELQAAEMiPD1QiKDsj9C2Qj8C3lIBkQlSBnlzAAQlyAAlThng",
+        "t": [
+          -0.0217,
+          -2.9342,
+          0.2627,
+          0.2627
+        ],
+        "bounds": [
+          -182.20000000000005,
+          -131.6,
+          364.50000000000006,
+          263.3
+        ]
+      },
+      "02200cd6c2fc3118a9e04cabb6f22037988a6c71": {
+        "fc": "#A1916A",
+        "p": "AqNRfQkthcjpioQjpioiAjaQiEjiABj3QgBj2CEjiQCAjaDpioQDpioEthcQE4hfFVAAQFWAAE5BfQEtBcDoCoQDpCoB/DaQCEDiAAD2QAAD3iEDiQh/DajpCoQjoCoktBcQk5BflWAAQlVAAk4hfg",
+        "t": [
+          -0.0217,
+          -5.561,
+          0.2627,
+          0.2627
+        ],
+        "bounds": [
+          -167.9152859375,
+          -121.29999999999998,
+          335.91528593749996,
+          242.7
+        ]
+      },
+      "300d436dbb47b3a74d7177d0c4db84b42e280a61": {
+        "fc": "#B3A382",
+        "p": "AonOvQj+hNjEiOQjEiOhsi4Qhvi+AAjQQAAjPBvi/QBsi3DEiOQDEiOD+hNQEIhREfAAQEgAAEIBRQD+BNDECOQDECOBrC3QBwC/AADPQAADQhwC+QhrC4jECOQjECOj+BNQkIBRkgAAQkgAAkHhRg",
+        "t": [
+          -0.0217,
+          -10.8146,
+          0.2627,
+          0.2627
+        ],
+        "bounds": [
+          -141.6,
+          -102.30000000000001,
+          283.29999999999995,
+          204.7
+        ]
+      },
+      "016aeca2c1eaf60f4295088185ce4ae4681702a6": {
+        "fc": "#5C4D2E",
+        "p": "An8HfQjGAAiMiMQiNiMABjHQgBjFCNiNQCMiMDGAAIP5AAQDGAACMCMQCNCNgBDFQABDHiNCMQiMCMjGAAg",
+        "t": [
+          -0.7966,
+          -12.962,
+          0.2627,
+          0.2627
+        ],
+        "bounds": [
+          -98.61490624999999,
+          -47.8,
+          197.3298125,
+          95.7
+        ]
+      },
+      "c0d07f9b77b740cd1d1a6b4ee728bce43381ba7c": {
+        "fc": "#91E8FE",
+        "p": "Al5QcQhlgfhOg4IAAgBQhQg5gshLIAAgBQgvhRAAhYQAAhZAvhQIAAgBQAshLBQg6QBOg4BlgfIAAAAQBUgaBbgEIAkgCIADAAIACAAIADAAIABAAIAOABIBKi8QgPgPgOgQQgKgLgBgNQgCgPAIgMQAuhSAmhMQBRipAxifIgBAAQAVhFAOhDQgBgSAGgQIAAgCQAIggAugNQgMgkAAgnQgCg2AUgzIAAAAQAPglAYgfIAAAAQAYgeAfgWIAAgBQAogcAvgMIABgBIAcgGIAFgBIAVgBIAFAAIADAAIAMAAIADAAIAUABIAEAAQAgAEAfAMIACABIADABIABABQAvATAlAkIABABIAHAHIAEAEIAUAaIAFAHIAOAWIABACQANAaAIAcIABAEIAGAhIAAAAIABANQAFA9gWA5IAAgBQgUAzgmAnIAAAAQggAhgpAUQAPAggNAZIAAAAQgDAIgFAIQgoBCgkBIIABgBQhKCXg3CzQgYBPgWBdQgEAOgKAKQgLAJgPABIgaACIg+CgQATAMATANQBRA6ArBLQAwBRAABZQAABZgwBQQgrBMhRA5IAAABQhOA4hlAfQhmAghxAAQhxAAhngggAAcPGQBWgaBCgwIAAAAQBBguAjg8QAig7ABhBQgBhBgig7Qgjg8hBguQgdgVghgRQgPgIgHgQQgGgQAHgQIBXjgQAFgNAMgIQALgIAOAAIARAAQAThNAVhEQA5i7BNicIAAAAQAjhJAphDQgFgGgIgIIgCgCIAAAAQgKgKgDgPQgCgOAGgNIADgGQAEgJAIgGQAHgGAJgDQAQgEAPgGIAAAAQAggOAYgZIABAAQAZgZANgiIAAAAQAPgngEgpIAAgDIAAABIgFggQgFgQgIgPIgZglQgIgEgHgMQgXgVgdgLIgBgBIgBAAQgVgIgXgDIgTgBIgCgBIgEABIgFAAIgOABIgZAFIABAAQgeAIgbATIAAAAQgUAPgQATIAAAAQgQAVgKAZIAAgBQgNAjABAkQAAAiAOAgIABABQAFAMAHALQAIAMAAANIgBACQAAASgNANQgNAOgTAAIgCgBIgEAAQgRgBgMACIgBAHQgQBKgWBMIAAABQgyClhWCwQggBCgmBFIAWAUQAKAJAEAOQADANgFAOIhfD2QgGAPgNAIQgNAIgPgCIgEAAIgCAAIglgCIgBAAIglACQhPADhKAXIAAAAQhWAahCAwQhAAugjA8IgBAAQgiA7AABBQAABBAiA7IABAAQAjA8BAAuIAAAAQBCAwBWAaQBbAcBjAAQBjAABagcg",
+        "t": [
+          140.9413,
+          130.5363
+        ],
+        "bounds": [
+          -72.7,
+          -108.19999999999993,
+          145.6707046875,
+          216.59999999999997
+        ]
+      },
+      "39cb10f98f283badab807504d7f152664acf9b28": {
+        "fc": "#54351E",
+        "p": "AihPiQhjAAhbgcQhWgahCgwIAAAAQhAgugjg8IgBAAQgig7AAhBQAAhBAig7IABAAQAjg8BAguQBCgwBWgaIAAAAQBKgXBPgDIAlgCIABAAIAlACIACAAIAEAAQAPACANgIQANgIAGgPIBfj2QAFgOgDgNQgEgOgKgJIgWgUQAmhFAghCQBWiwAyilIAAgBQAWhMAQhKIABgHQAMgCARABIAEAAIACABQATAAANgOQANgNAAgSIABgCQAAgNgIgMQgHgLgFgMIgBgBQgOggAAgiQgBglANgiIAAABQAKgZAQgVIAAAAQAPgTAVgPIAAAAQAbgTAegIIgBAAIAZgFIAOgBIAFAAIAEgBIACABIATABQAXADAVAIIABAAIABABQAdALAXAVQAHAMAIAEIAZAlQAIAPAFAQIAFAgIAAgBIAAADQAEApgPAnIAAAAQgOAigYAZIgBAAQgYAZggAOIAAAAQgPAGgQAEQgJADgHAGQgIAGgEAJIgDAGQgGANACAOQACAPALAKIAAAAIACACQAIAIAFAGQgpBDgjBJIAAAAQhNCcg5C7QgVBEgTBNIgRAAQgOAAgLAIQgMAIgFANIhXDgQgHAQAGAQQAHAQAPAIQAhARAdAVQBBAuAjA8QAiA7ABBBQgBBBgiA7QgjA8hBAuIAAAAQhCAwhWAaQhZAchjAAIgBAAg",
+        "t": [
+          140.9448,
+          130.5375
+        ],
+        "bounds": [
+          -63.7,
+          -99.3,
+          127.6258375,
+          198.7
+        ]
+      }
+    },
+    "animations": {},
+    "containers": {
+      "d599308a0253c9b587585e12201d49d47616f2ec": {
+        "c": [
+          "cee58cd85139ce8c49796924a64b510e30143321",
+          "b5384cef222a31ebef9735f27388d81f548ec39e",
+          "f56667516423399e9cf1add0671d891831793fee",
+          "3ae67800036d150fa894185f0b00db2a7a194665",
+          "5f0ded2f96bf0bc6db4299669a352944e8ecf74a"
+        ],
+        "b": [
+          -47.9,
+          -22.4,
+          95.8,
+          44.8
+        ]
+      },
+      "7f68644170b5183dd0b1d1c6d257d59b2499c1ab": {
+        "c": [
+          "7d81a8af02a726a431afc40e229c6ad9a99fdd28",
+          "a281b8f5a9d301c153d9eb8ccaaf24ae0851ceb9",
+          "715bc020c53098f1a74ec86ea744bb886ce6a49a",
+          "3932ee73d1386e263a57e9fe004842ad0d283799",
+          "92ec6e854f6ba43d75d8f1dca9407dc28a1b8c06",
+          "b97dc51baf8dc80809211b6180fed6efeb3cb6fa",
+          "bbe6723440d58a734ca93e67e6c5d65de372c6ca",
+          "f4c0ec8f8f796fb7f7fa3efd852a87c08b0add01",
+          "29ff9b723a951e3c60be61655c1732df86b28c9c",
+          "12b49564e07050ef376974221d3985b60c6a4645",
+          "67cb1cc357326399a9d3dc2c8f435e7af6b62a39",
+          "50b4ab56db8c994c96474037c237a5fc18f455af",
+          "cc17013310d7904046e5382fc55ce891f4bce3fa",
+          "3fa6c4ea4134668ac216cd21264d57f4c78ec671",
+          "fc496bb2c86d7a0c67372f1734864c2c2ce2380d",
+          "9108712e7a74b2b297ab1f09333d6dd181f15619",
+          "66a5ef262b45d14ec7a0fb94d3eb0b10c58fa8a3",
+          "96b3d8d79eb1aa4452ce4f50bfd0af37fe65128d"
+        ],
+        "b": [
+          -22.3,
+          -99.7,
+          44.6,
+          199.3
+        ]
+      },
+      "2fd0b982e89b76363c8393a807231370abd65750": {
+        "c": [
+          "9508c0b5f4dd1e93103aa03f1a00b86aa727b583",
+          "9fd90244ef7bd3b630e74d518d5c66f111530edf",
+          "02200cd6c2fc3118a9e04cabb6f22037988a6c71",
+          "300d436dbb47b3a74d7177d0c4db84b42e280a61",
+          "016aeca2c1eaf60f4295088185ce4ae4681702a6"
+        ],
+        "b": [
+          -52.1,
+          -37.7,
+          104.2,
+          75.30000000000001
+        ]
+      },
+      "b748fb5e49fa09ed15cf997c9b81f6e3ac900a19": {
+        "c": [
+          {
+            "gn": "d599308a0253c9b587585e12201d49d47616f2ec",
+            "t": [
+              47.9,
+              22.4
+            ]
+          }
+        ],
+        "b": [
+          0,
+          0,
+          95.8,
+          44.8
+        ]
+      },
+      "d22180b8d5fad8050c89533aa574e9c0241a3b37": {
+        "c": [
+          {
+            "gn": "7f68644170b5183dd0b1d1c6d257d59b2499c1ab",
+            "t": [
+              22.3,
+              99.7
+            ]
+          }
+        ],
+        "b": [
+          0,
+          0,
+          44.6,
+          199.3
+        ]
+      },
+      "140d83f8e58f6849d54e8b764cba9e636d7ba54c": {
+        "c": [
+          {
+            "gn": "2fd0b982e89b76363c8393a807231370abd65750",
+            "t": [
+              52.1,
+              37.7
+            ]
+          }
+        ],
+        "b": [
+          0,
+          0,
+          104.2,
+          75.3
+        ]
+      },
+      "Town_Lever_Switch_Disabled_withBlue_01_JSCC": {
+        "c": [
+          "c0d07f9b77b740cd1d1a6b4ee728bce43381ba7c",
+          "39cb10f98f283badab807504d7f152664acf9b28",
+          {
+            "gn": "140d83f8e58f6849d54e8b764cba9e636d7ba54c",
+            "t": [
+              124.75,
+              196.65,
+              1,
+              1,
+              0,
+              0,
+              0,
+              52.1,
+              37.6
+            ]
+          },
+          {
+            "gn": "d22180b8d5fad8050c89533aa574e9c0241a3b37",
+            "t": [
+              125.25,
+              209.1,
+              1,
+              1,
+              21.2447,
+              0,
+              0,
+              22.8,
+              193.8
+            ]
+          },
+          {
+            "gn": "b748fb5e49fa09ed15cf997c9b81f6e3ac900a19",
+            "t": [
+              124.75,
+              206.05,
+              1,
+              1,
+              0,
+              0,
+              0,
+              47.9,
+              22.4
+            ]
+          }
+        ],
+        "b": [
+          0,
+          0,
+          250,
+          250
+        ]
+      }
+    }
+  }

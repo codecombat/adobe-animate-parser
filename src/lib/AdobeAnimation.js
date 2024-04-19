@@ -48,7 +48,16 @@ export default class AdobeAnimation {
     }
   }
 
+  rewriteAnimateFile () {
+    // Newer versions of Animate have a _renderFirstFrame function that we need to remove
+    this.animateFile = this.animateFile.replace(/\s*this\._renderFirstFrame\(\);/g, '')
+    // They also might try to define a lib.AnMovieClip that we need to replace with normal cjs.MovieClip
+    this.animateFile = this.animateFile.replace(/new lib\.AnMovieClip\(/g, 'new cjs.MovieClip(')
+  }
+
   import () {
+    this.rewriteAnimateFile()
+
     this.library = {}
     const animate = {}
 
@@ -71,7 +80,8 @@ export default class AdobeAnimation {
         cocoLibrary: this.library,
         cocoAnimate: animate,
         cocoCjs: createjs,
-        console
+        console,
+        Object
       })
     } catch (e) {
       throw new Error('Failed parsing animate file', e)
@@ -92,6 +102,9 @@ export default class AdobeAnimation {
     if (Object.keys(this.library).length === 0) {
       throw new Error('Nothing in library')
     }
+
+    // Remove lib.AnMovieClip, if it's present; otherwise we'll think it's an entrypoint
+    delete this.library.AnMovieClip
 
     this.findAndMonitorLibraryMovieClips()
 
