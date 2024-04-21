@@ -96,6 +96,111 @@ function dereferenceNativeObject (nativeObject, movieClipRefs = [], shapeRefs = 
     return outputObject
 }
 
+function processTween(tween, animations, shapes, containers) {
+    const finalTween = []
+
+    const resolvedTween = tween.node
+    const resolvedTarget = resolvedTween.data.target.node
+
+    if (!resolvedTarget) {
+        console.log('No resolved target for tween', resolvedTween, resolvedTween.id)
+        return
+    }
+    switch (resolvedTarget.type) {
+        case 'movie_clip':
+            const movieClipRef = generateMovieClipBlockReference(resolvedTarget)
+            animations.push(movieClipRef)
+
+            finalTween.push({
+                n: 'get',
+                a: [ movieClipRef.bn ]
+            })
+
+            break
+
+        case 'container':
+            const containerRef = generateContainerBlockReference(resolvedTarget)
+            containers.push(containerRef)
+
+            finalTween.push({
+                n: 'get',
+                a: [ containerRef.bn ]
+            })
+
+            break
+
+        case 'shape':
+            const shapeRef = generateShapeBlockReference(resolvedTarget)
+
+            shapes.push(shapeRef)
+
+            finalTween.push({
+                n: 'get',
+                a: [ shapeRef.bn ]
+            })
+
+            break
+
+        case 'native_object':
+            finalTween.push({
+                n: 'get',
+                a: [ resolvedTarget.data.object ]
+            })
+
+            break
+
+        default:
+            throw new Error('Invalid target type')
+
+    }
+
+    const dereferencedTweenCalls = dereferenceNativeObject(
+      resolvedTween.data.tweenCalls, animations, shapes, containers
+    )
+
+    for (const methodCall of dereferencedTweenCalls) {
+        finalTween.push({
+            n: methodCall.name,
+            a: methodCall.args
+        })
+    }
+
+    return finalTween
+}
+
+function processAnimation(animation, finalAnimations) {
+    const resolvedAnimation = animation.node
+
+    const containers = []
+    const shapes = []
+    const animations = []
+    const tweens = []
+
+    for (const tween of resolvedAnimation.data.tweens) {
+        tweens.push(processTween(tween, animations, shapes, containers))
+    }
+
+    const translatedAnimation = {
+      animations,
+      shapes,
+      tweens,
+      containers,
+      graphics: [],
+      bounds: resolvedAnimation.bounds,
+      frameBounds: resolvedAnimation.frameBounds,
+    }
+
+    if (resolvedAnimation.data.bounds) {
+      translatedAnimation.bounds = translateBounds(resolvedAnimation.data.bounds)
+    }
+
+    if (resolvedAnimation.data.frameBounds) {
+      translatedAnimation.frameBounds = translateBounds(resolvedAnimation.data.frameBounds)
+    }
+
+    finalAnimations[resolvedAnimation.id] = translatedAnimation
+  }
+
 export default function (schema) {
     const finalShapes = {}
     for (const shape of schema.shapes) {
@@ -161,100 +266,7 @@ export default function (schema) {
 
     const finalAnimations = {}
     for (const animation of schema.animations) {
-        const resolvedAnimation = animation.node
-
-        const containers = []
-        const shapes = []
-        const animations = []
-        const tweens = []
-
-        for (const tween of resolvedAnimation.data.tweens) {
-            const finalTween = []
-
-            const resolvedTween = tween.node
-            const resolvedTarget = resolvedTween.data.target.node
-
-            switch (resolvedTarget.type) {
-                case 'movie_clip':
-                    const movieClipRef = generateMovieClipBlockReference(resolvedTarget)
-                    animations.push(movieClipRef)
-
-                    finalTween.push({
-                        n: 'get',
-                        a: [ movieClipRef.bn ]
-                    })
-
-                    break
-
-                case 'container':
-                    const containerRef = generateContainerBlockReference(resolvedTarget)
-                    containers.push(containerRef)
-
-                    finalTween.push({
-                        n: 'get',
-                        a: [ containerRef.bn ]
-                    })
-
-                    break
-
-                case 'shape':
-                    const shapeRef = generateShapeBlockReference(resolvedTarget)
-
-                    shapes.push(shapeRef)
-
-                    finalTween.push({
-                        n: 'get',
-                        a: [ shapeRef.bn ]
-                    })
-
-                    break
-
-                case 'native_object':
-                    finalTween.push({
-                        n: 'get',
-                        a: [ resolvedTarget.data.object ]
-                    })
-
-                    break
-
-                default:
-                    throw new Error('Invalid target type')
-
-            }
-
-            const dereferencedTweenCalls = dereferenceNativeObject(
-              resolvedTween.data.tweenCalls, animations, shapes, containers
-            )
-
-            for (const methodCall of dereferencedTweenCalls) {
-                finalTween.push({
-                    n: methodCall.name,
-                    a: methodCall.args
-                })
-            }
-
-            tweens.push(finalTween)
-        }
-
-        const translatedAnimation = {
-            animations,
-            shapes,
-            tweens,
-            containers,
-            graphics: [],
-            bounds: resolvedAnimation.bounds,
-            frameBounds: resolvedAnimation.frameBounds
-        }
-
-        if (resolvedAnimation.data.bounds) {
-            translatedAnimation.bounds = translateBounds(resolvedAnimation.data.bounds)
-        }
-
-        if (resolvedAnimation.data.frameBounds) {
-            translatedAnimation.frameBounds = translateBounds(resolvedAnimation.data.frameBounds)
-        }
-
-        finalAnimations[resolvedAnimation.id] = translatedAnimation
+        processAnimation(animation, finalAnimations)
     }
 
     const result = {
