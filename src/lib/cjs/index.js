@@ -8,6 +8,7 @@ import MovieClip from './MovieClip'
 import Stage from './Stage'
 import Tween from './Tween'
 import Shadow from './Shadow'
+import Ease from './Ease'
 
 // function extend (subclass, superclass) {
 // 	"use strict";
@@ -38,6 +39,6 @@ export default {
     MovieClip,
     Stage,
     Tween,
-
-  Shadow
+    Shadow,
+    Ease,
 }
