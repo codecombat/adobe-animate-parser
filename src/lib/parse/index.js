@@ -14,6 +14,8 @@ export default class AnimateParser {
             parsed: {}
         }
 
+        this.renameCache = {}
+
         this.schema = {
             shapes: [],
             animations: [],
@@ -55,6 +57,9 @@ export default class AnimateParser {
     }
 
     updatedId (oldId, animateNode) {
+        let previousId = this.renameCache[oldId]
+        this.renameCache[oldId] = animateNode.id
+
         this.targetCache.original[animateNode.id] = this.targetCache.original[oldId]
         delete this.targetCache.original[oldId]
 
@@ -81,7 +86,7 @@ export default class AnimateParser {
             referencedNodeId = this.getParsedId(entityOrReference)
         }
 
-        const reference = new AnimateNodeReference('', referencedNodeId, this.targetCache)
+        const reference = new AnimateNodeReference('', referencedNodeId, this.targetCache, this.renameCache)
         const tempId = this.markParsed(reference)
         reference.id = tempId
 
