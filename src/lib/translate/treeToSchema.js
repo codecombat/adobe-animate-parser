@@ -66,7 +66,7 @@ function dereferenceNativeObject (nativeObject, movieClipRefs = [], shapeRefs = 
 
             // If this is an object we have a complex type that we need to unwind
             if (resolvedValue.type === 'movie_clip') {
-                const movieClipRef = generateMovieClipBlockReference(movieClipRefs)
+                const movieClipRef = generateMovieClipBlockReference(resolvedValue)
                 movieClipRefs.push(movieClipRef)
 
                 // Replace with the ID, it will be properly handled when rebuilt
