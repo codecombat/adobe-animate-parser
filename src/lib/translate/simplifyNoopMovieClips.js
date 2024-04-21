@@ -285,7 +285,7 @@ export function simplifyMovieClipPass (schema) {
   return schema
 }
 
-export default function simplyNoopMovieClips (schema) {
+export default function simplifyNoopMovieClips (schema) {
   let lastNumAnimations
   let numAnimations = schema.animations.length
 

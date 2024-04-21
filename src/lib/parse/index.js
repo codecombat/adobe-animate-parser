@@ -89,25 +89,6 @@ export default class AnimateParser {
         return reference
     }
 
-    resolveEntity (entityOrReference) {
-        if (entityOrReference instanceof AnimateNodeReference) {
-            const { nodeId } = entityOrReference
-
-            const animateNode = this.targetCache.parsed[nodeId]
-            if (!animateNode) {
-                throw new Error('Animate node not found from reference')
-            }
-
-            return animateNode.original
-        }
-
-        if (entityOrReference instanceof AnimateNode) {
-            return entityOrReference.original
-        }
-
-        return entityOrReference
-    }
-
     parseRectangle (rectangle) {
         if (!rectangle) {
             return undefined
@@ -278,9 +259,6 @@ export default class AnimateParser {
                     parsedTarget = this.parseShape(value)
                 } else if (value instanceof Tween) {
                     parsedTarget = this.parseTween(value)
-                } else if (value instanceof Tween) {
-                    // TODO throwing to be safe here - we have not tested tween support in native JS objects
-                    throw new Error('Do no support tween here')
                 } else if (value.constructor === Object || Array.isArray(value)) {
                     parsedTarget = this.parseNativeJsObject(value)
                 } else {

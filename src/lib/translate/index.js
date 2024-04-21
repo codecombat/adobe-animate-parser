@@ -1,5 +1,5 @@
 export treeToSchema from './treeToSchema'
-export simplifyNoopMovieClips from './simplifyNoopMoiveClips'
+export simplifyNoopMovieClips from './simplifyNoopMovieClips'
 export alignBoundsToCoco from './alignBoundsToCoco'
 export convertAnimationShapesToContainers from './convertAnimationShapesToContainers'
 

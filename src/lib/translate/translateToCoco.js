@@ -1,5 +1,5 @@
 import alignBoundsToCoco from './alignBoundsToCoco'
-import simplifyNoopMovieClips from './simplifyNoopMoiveClips'
+import simplifyNoopMovieClips from './simplifyNoopMovieClips'
 import treeToSchema from './treeToSchema'
 import convertAnimationShapesToContainers from './convertAnimationShapesToContainers'
 

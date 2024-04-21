@@ -20,9 +20,7 @@ export default class AdobeAnimation {
     this.import()
     this.findAndMonitorLibraryMovieClips()
     this.buildAnimationTrees()
-
     this.findEntryPoint()
-
     this.parseTree()
   }
 
@@ -105,8 +103,6 @@ export default class AdobeAnimation {
 
     // Remove lib.AnMovieClip, if it's present; otherwise we'll think it's an entrypoint
     delete this.library.AnMovieClip
-
-    this.findAndMonitorLibraryMovieClips()
 
     this.imported = true
   }
