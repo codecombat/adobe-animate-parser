@@ -5,6 +5,9 @@ import { AdobeAnimation } from '../src/index'
 import { translateToCoco } from '../src/lib/translate'
 
 const fixture_tests = [
+  [ 'spec/fixtures/cube_attack_down_input.js', './fixtures/cube_attack_down_output.json' ],
+  [ 'spec/fixtures/cube_idle_input.js', './fixtures/cube_idle_output.json' ],
+  [ 'spec/fixtures/hero_a_use_down_new_input.js', './fixtures/hero_a_use_down_new_output.json' ],
   [ 'spec/fixtures/lever_new_input.js', './fixtures/lever_new_output.json' ],
   [ 'spec/fixtures/lever_old_input.js', './fixtures/lever_old_output.json' ],
   [ 'spec/fixtures/hero_a_input.js', './fixtures/hero_a_output.json' ],
